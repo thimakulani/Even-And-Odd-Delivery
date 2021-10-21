@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Even &amp; Odds Driver</string>
+  <string name="mapKey">AIzaSyCig7wjJ1Xgo1Z7_6FrlsQxp9yor0tte4s</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_profile">Profile</string>
+  <string name="Hello">Hello World, Click Me!</string>
+  <string name="ApplicationName">Notifications</string>
+  <string name="channel_name">Local Notifications</string>
+  <string name="channel_description">The count from MainActivity</string>
+</resources>

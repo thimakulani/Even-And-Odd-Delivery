@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+>
+   <com.google.android.material.appbar.AppBarLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+     android:id="@+id/appBarLayout1"
+   >
+       <include
+           layout="@layout/include_toolbar"
+       />
+   </com.google.android.material.appbar.AppBarLayout>
+   
+   <com.google.android.material.button.MaterialButton
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Year"
+       android:id="@+id/BtnYear"
+       android:layout_marginLeft="20dp"
+    app:icon="@mipmap/ic_arrow_drop_down_black_18dp"
+       android:layout_marginRight="20dp"
+       android:layout_below="@+id/appBarLayout1"
+   />
+   <com.google.android.material.button.MaterialButton
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Month"
+       android:layout_marginLeft="20dp"
+        app:icon="@mipmap/ic_arrow_drop_down_black_18dp"
+       android:layout_marginRight="20dp"
+       android:id="@+id/BtnMonth"
+        android:layout_below="@+id/BtnYear"
+   />
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Generate Invoice"
+        android:layout_margin="20dp"
+        android:id="@+id/BtnGenerateInvoice"
+    />
+
+</RelativeLayout>

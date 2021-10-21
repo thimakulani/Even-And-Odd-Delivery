@@ -1,0 +1,89 @@
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/DeliveryRequestNavigation"
+    android:background="@android:color/darker_gray"
+>
+    
+    <RelativeLayout
+        android:orientation="vertical"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1"
+        android:padding="15dp"
+        
+    >
+        <TextView
+            android:text=" "
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView1"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:layout_toLeftOf="@+id/ImgNavigate"
+        />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:src="@mipmap/ic_alt_route_black_18dp"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ImgNavigate" 
+            app:fabSize="mini"
+            android:layout_toLeftOf="@+id/ImgCall"
+        />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:src="@mipmap/ic_phone_black_18dp"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:layout_alignParentRight="true"
+            android:id="@+id/ImgCall"
+            android:layout_toLeftOf="@+id/imgCancelDelivery"
+            
+        />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            
+            android:layout_margin="5dp"
+            android:src="@mipmap/ic_cancel_black_18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgCancelDelivery"
+            app:fabSize="mini"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            
+        />
+        <com.google.android.material.button.MaterialButton
+            android:text="Pickup"
+            android:layout_width="match_parent"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            app:icon="@mipmap/ic_local_shipping_black_18dp"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ImgNavigate"
+            android:id="@+id/BtnPickupDestination" 
+        />
+        <com.google.android.material.button.MaterialButton
+            android:text="Reassign"
+            android:layout_width="match_parent"
+            app:icon="@mipmap/ic_sync_alt_black_18dp"
+            android:textAllCaps="false"
+            android:textAlignment="center"
+            android:visibility="gone"
+            android:textColor="#ffffff"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/BtnPickupDestination"
+            android:id="@+id/BtnReassign" 
+        />
+
+    </RelativeLayout>
+</RelativeLayout>

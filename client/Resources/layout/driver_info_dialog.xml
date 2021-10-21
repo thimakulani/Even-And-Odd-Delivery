@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="5dp"
+    
+>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+    >
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:src="@drawable/ic_dialog_close_dark"
+            android:id="@+id/FabClose"
+        />
+        <TextView
+            android:text="Names:"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:id="@+id/textView1" />
+        <TextView
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:background="@drawable/dialog_text_style"
+            android:layout_height="wrap_content"
+            android:id="@+id/RowNames" />
+        <TextView
+            android:text="Surname:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3" 
+        />
+        <TextView
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="@drawable/dialog_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/RowSurname" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linearLayoutCarInformatio"
+        >
+            <TextView
+                android:text="Car Registration No:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            />
+            <TextView
+                android:text="Large Text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:background="@drawable/dialog_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/RowUserRegNo" 
+            />
+            <TextView
+                android:text="Make/Model:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            />
+            <TextView
+                android:text="Large Text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:background="@drawable/dialog_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/RowUserMake" 
+            />
+           <TextView
+                android:text="Type:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            />
+            <TextView
+                android:text="Type"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:background="@drawable/dialog_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/RowUserCarType" 
+            />
+            <TextView
+                android:text="Color:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            />
+            <TextView
+                android:text="Large Text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:background="@drawable/dialog_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/RowUserColor" 
+            />
+
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        >
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:id="@+id/RowFabCall"
+                android:layout_toLeftOf="@+id/RowFabEmail"
+                android:src="@android:drawable/stat_sys_phone_call"
+                android:layout_margin="5dp"
+            />
+        </RelativeLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--  res/drawable/edittext_rounded_corners.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:thickness="5dp">
+  <solid android:color="#fff" />
+  <corners
+      android:topLeftRadius="5dp"
+      android:bottomLeftRadius="5dp"
+      android:topRightRadius="5dp"
+      android:bottomRightRadius="5dp"
+   />
+  <gradient android:startColor="#3471eb" android:endColor="#3471eb" android:centerColor="#ffff"/>
+</shape>

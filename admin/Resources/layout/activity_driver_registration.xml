@@ -1,0 +1,74 @@
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root_registration_layout"
+>
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:id="@+id/toolbar1"
+        android:elevation="0dp"
+        android:background="@color/colorPrimary"
+    >
+        <ImageView
+            android:src="?android:attr/homeAsUpIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgCloseSignUp" 
+            android:tint="#ffffff"
+            tools:ignore="ContentDescription"
+        />
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ Create Driver"
+            android:layout_gravity="right"
+            android:background="#ffffff"
+            android:id="@+id/txtCreateDriver"
+            app:strokeColor="#ffffff"
+            app:strokeWidth="2dp"
+            
+        />
+    </com.google.android.material.appbar.MaterialToolbar>
+    <android.support.v7.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/InputSearchUsers"
+        android:background="@drawable/search_input"
+        android:layout_below="@id/toolbar1"
+        android:foregroundTint="#ffffff"
+        android:theme="@style/AppSearchView"
+    />  
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerUsersList"
+        android:layout_below="@+id/InputSearchUsers"
+        android:layout_marginTop="5dp"
+        
+    
+    />
+
+    
+     <com.google.android.material.textview.MaterialTextView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+        android:id="@+id/txt_user_count"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        />
+
+
+</RelativeLayout>

@@ -1,0 +1,66 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root_superuser_layout"
+>
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar1"
+        android:background="#3498db"
+    >
+        <ImageView
+            android:src="?android:attr/homeAsUpIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgCloseSuperuser"
+            android:tint="#ffffff"
+            tools:ignore="ContentDescription" 
+        />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ Create Admin"
+            android:textStyle="bold"
+            android:layout_gravity="right"
+            app:strokeColor="#ffffff"
+            app:strokeWidth="2dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/txtCreateSuperUser"
+        />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerSuperUsersList"
+        android:layout_below="@id/toolbar1"
+        android:layout_marginTop="5dp"
+        android:layout_above="@+id/InputSearchSuperUsers"
+        
+    
+    />
+    <androidx.appcompat.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/InputSearchSuperUsers"
+        android:layout_margin="10dp"
+        android:layout_toLeftOf="@+id/FabSearchSuperUser"
+        android:layout_alignParentBottom="true"
+        
+    />
+
+
+
+
+</RelativeLayout>

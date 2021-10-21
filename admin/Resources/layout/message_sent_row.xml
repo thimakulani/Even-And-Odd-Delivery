@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.github.library.bubbleview.BubbleTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sender_row"
+        android:padding="10dp"
+        android:layout_alignParentLeft="true"
+        android:textColor="#FFF"
+        app:arrowHeight="10dp"
+        app:arrowWidth="8dp"
+        app:angle="8dp"
+        android:text="xxxxxxxxxxxx"
+        app:arrowPosition="14dp"
+        app:arrowLocation="left"
+        app:arrowCenter="true"
+        app:bubbleColor="#7EC0EE" 
+        android:layout_margin="2dp"
+    />
+
+</RelativeLayout>

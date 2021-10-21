@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    
+>
+
+      <TextView
+          android:text="Small Text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:minWidth="25px"
+          android:layout_alignParentRight="true"
+          android:minHeight="25px"
+          android:id="@+id/SenderTxtMsgTime"
+          android:textSize="10dp"
+          android:textStyle="bold"
+          android:layout_marginLeft="3dp"
+          android:textColor="@android:color/darker_gray"
+       />
+      <com.github.library.bubbleview.BubbleTextView
+          android:text="nnnn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="3dp"
+          android:textStyle="bold"
+            android:layout_alignParentRight="true"
+          
+          android:padding="5dp"
+          android:layout_marginRight="5dp"
+          android:layout_below="@+id/SenderTxtMsgTime"
+          android:id="@+id/SenderTxtMessage"
+          android:textColor="#ffffff"
+          app:arrowHeight="10dp"
+          app:arrowWidth="8dp"
+          app:angle="8dp"
+          app:arrowPosition="14dp"
+          app:arrowLocation="right"
+          app:arrowCenter="true"
+          app:bubbleColor="#8f5194"
+       />
+</RelativeLayout>

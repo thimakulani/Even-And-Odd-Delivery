@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_margin="5dp"
+    android:layout_height="wrap_content"
+>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+    >
+        <TextView
+            android:text="Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:id="@+id/txtDriverName" 
+        />
+        <TextView
+            android:text="Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:id="@+id/txtReason"
+            android:layout_below="@+id/txtDriverName"
+        />
+        <TextView
+            android:text="Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:id="@+id/txtLocation" 
+            android:layout_below="@+id/txtReason"
+        />
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Re-assign"
+            android:layout_alignParentRight="true"
+            android:id="@+id/BtnReassign"
+            android:layout_below="@+id/txtLocation"
+            
+        />
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reject"
+            android:id="@+id/BtnReject"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/BtnReassign"
+            android:layout_below="@+id/txtLocation"
+            
+        />
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

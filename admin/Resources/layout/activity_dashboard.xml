@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:minWidth="25px"
+        android:minHeight="25px"       
+        android:id="@+id/view1" 
+        android:background="#3498db"
+    />
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="4dp"
+        android:id="@+id/ToWrapper"
+    >
+        <RelativeLayout
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:id="@+id/linearLayout1"
+        >
+            <TextView
+                android:text="Dashboard"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView3" 
+                android:textStyle="bold"
+                android:textColor="#2e7dd9"
+            />
+            <TextView
+                android:text="Welcome: "
+                android:layout_below="@+id/textView3"
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtDashboardUsername" 
+                android:textColor="#2e7dd9"
+            />
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/RecyclerMennu"
+        android:layout_below="@+id/ToWrapper"
+    />
+
+
+
+
+
+
+</RelativeLayout>

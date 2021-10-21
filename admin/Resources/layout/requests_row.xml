@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="5dp"
+    
+>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+    >
+        <TextView
+            android:text="Names:"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:id="@+id/textView1" />
+        <TextView
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:background="@drawable/dialog_text_style"
+            android:layout_height="wrap_content"
+            android:id="@+id/DR_RowNames" />
+        <TextView
+            android:text="Surname:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3" 
+        />
+        <TextView
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="@drawable/dialog_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DR_RowSurname" />
+        <TextView
+            android:text="Phone number:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        />
+        <TextView
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:background="@drawable/dialog_text_style"
+            android:layout_height="wrap_content"
+            android:id="@+id/DR_RowPhoneNumber" />
+        <TextView
+            android:text="Email:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        />
+        <TextView
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:background="@drawable/dialog_text_style"
+            android:layout_height="wrap_content"
+            android:id="@+id/DR_RowEmail" />
+        <TextView
+            android:text="Registration No:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        />
+        <TextView
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="@drawable/dialog_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DR_RowRegNo" 
+        />
+        <TextView
+            android:text="Make/Model:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        />
+        <TextView
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="@drawable/dialog_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DR_RowMake" 
+        />
+       <TextView
+            android:text="Type:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        />
+        <TextView
+            android:text="Type"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="@drawable/dialog_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DR_RowType" 
+        />
+        <TextView
+            android:text="Color:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        />
+        <TextView
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="@drawable/dialog_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DR_RowColor" 
+        />
+        <TextView
+            android:text="Status:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        />
+        <TextView
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="@drawable/dialog_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DR_RowStatus" 
+        />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        >
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/DR_RowApprove"
+                android:textStyle="bold"
+                android:text="Approve"
+                android:textColor="#ffffff"
+                android:textAllCaps="false"
+            />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/DR_RowDecline"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/DR_RowApprove"
+                android:text="Decline"
+                android:textColor="#ffffff"
+                android:textAllCaps="false"
+                app:backgroundTint="@android:color/holo_red_light"
+            />
+        </RelativeLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

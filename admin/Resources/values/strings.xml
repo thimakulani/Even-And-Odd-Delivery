@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Even &amp; Odds Admin</string>
+    <string name="action_settings">Settings</string>
+    <string name="txt_remove">Remove</string>
+    <string name="txt_message">Announcement..</string>
+    <string name="txt_submit">Submit</string>
+
+</resources>

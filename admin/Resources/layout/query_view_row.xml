@@ -1,0 +1,37 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="5dp"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="5dp"
+>
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout1"
+        android:padding="5dp"
+    >
+        <TextView
+            android:text="Dates:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/QueryRowDates" 
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="3dp"
+        />
+        <TextView
+            android:text="Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/QueryRowName" 
+            android:layout_below="@+id/QueryRowDates"
+           
+        />
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

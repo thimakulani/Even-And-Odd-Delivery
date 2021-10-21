@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+>
+    <TextView
+        android:text="Deliver to:"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textView1" />
+    <TextView
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:background="@drawable/dialog_text_style"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtSuccessDialogDeliverTo" />
+    <TextView
+        android:text="Pick up Loation:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3" />
+    <TextView
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:background="@drawable/dialog_text_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtSuccessDialogPickupLocation" />
+    <TextView
+        android:text="Destination:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3" />
+    <TextView
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:background="@drawable/dialog_text_style"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtSuccessDialogDestination" />
+    <TextView
+        android:text="Date:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/textView3" />
+    <TextView
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:background="@drawable/dialog_text_style"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/txtSuccessDialogDate" />
+    <TextView
+        android:text="Time:"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3" />
+    <TextView
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:background="@drawable/dialog_text_style"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtSuccessDialogTime" />
+
+    <TextView
+        android:text="Please Note That, Once the request is accepted, you cannot cancel it"
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3" />
+    <com.google.android.material.button.MaterialButton
+        android:text="Complete"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/BtnSuccessDialogOk"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+    />
+
+</LinearLayout>

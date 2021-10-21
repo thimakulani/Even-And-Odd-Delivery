@@ -1,0 +1,75 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentTop="true"
+        android:id="@+id/TRecyclerChatMessage"
+        android:scrollbars="vertical"
+         android:layout_above="@+id/bottom_wrapper"
+        android:layout_marginBottom="5dp"    
+    />
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:orientation="horizontal"
+         android:id="@+id/bottom_wrapper"
+     >
+        <RelativeLayout
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout2" 
+        >
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textInputLayout1" 
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_toLeftOf="@+id/TBtnSendMessage"
+                
+            >
+      
+                 <com.google.android.material.textfield.TextInputEditText
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:hint="Message here"
+                     android:layout_marginTop="5dp"
+                     android:layout_marginBottom="5dp"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginRight="5dp"
+             
+                     android:inputType="textMultiLine"
+                     android:textAppearance="?android:attr/textAppearanceSmall"
+                     android:textColorHint="#ffff"
+                     android:id="@+id/TInputMessage"
+                     android:textColor="#ffff"
+                 />
+            </com.google.android.material.textfield.TextInputLayout>
+             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="5dp"
+                 android:layout_marginBottom="5dp"
+                 android:layout_marginRight="5dp"
+                 app:fabSize="mini"
+                 android:src="@android:drawable/ic_menu_send"
+                 android:id="@+id/TBtnSendMessage"
+                 android:layout_alignParentRight="true"
+             />
+          </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -21,25 +21,7 @@
         android:id="@+id/relativeLayout1"
         tools:ignore="PossiblyUselessParentWithBackground"
     >
-
-        <ImageView
-            android:src="@drawable/delivery_icon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/imageView1"
-            android:layout_centerHorizontal="true"
-            tools:ignore="ContentDescription" 
-        />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#ffffff"
-            android:id="@+id/view1"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_below="@+id/imageView1"
-        />
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,12 +29,12 @@
             android:paddingTop="5dp"
             android:textColor="#ffffff"
             android:minHeight="25px"
-            android:text="Distance"
+            android:text="@string/txt_distance"
             android:textStyle="bold"
             android:layout_below="@+id/view1"
             
         />
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,20 +48,20 @@
             android:layout_below="@+id/view1"
             
         />
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="25px"
             android:paddingTop="5dp"
             android:textColor="#ffffff"
-            android:text="Price"
+            android:text="@string/txt_price"
             android:minHeight="25px"
             android:textStyle="bold"
             android:layout_below="@+id/TxtDistance"
             
         />
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,21 +74,21 @@
             android:id="@+id/TxtPrice"
             android:layout_below="@+id/TxtDistance"
         />
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="25px"
             android:paddingTop="5dp"
             android:textColor="#ffffff"
-            android:text="Estimated Duration"
+            android:text="@string/txt_duration"
             android:minHeight="25px"
             android:id="@+id/Duration_Caption"
             android:textStyle="bold"
             android:layout_below="@+id/TxtPrice"
             
         />
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -120,8 +102,7 @@
             android:layout_below="@+id/TxtPrice"
         />
         <com.google.android.material.button.MaterialButton
-            android:text="Continue"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:text="@string/txt_continue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/BtnContinueRequest"

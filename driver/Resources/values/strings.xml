@@ -8,4 +8,13 @@
   <string name="ApplicationName">Notifications</string>
   <string name="channel_name">Local Notifications</string>
   <string name="channel_description">The count from MainActivity</string>
+  <string name="com.crashlytics.android.build_id">1.0</string>
+  <string name="txt_pickup">PICK UP</string>
+  <string name="txt_destination">DESTINATION</string>
+  <string name="txt_names">NAMES</string>
+  <string name="txt_accept">ACCEPT</string>
+  <string name="txt_cancel">CANCEL</string>
+  <string name="txt_price">PRICE</string>
+  <string name="txt_distance">DISTANCE</string>
+  <string name="txt_estimated_time">ESTIMATED TIME</string>
 </resources>

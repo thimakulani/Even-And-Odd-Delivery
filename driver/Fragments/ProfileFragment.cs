@@ -9,10 +9,11 @@ using Google.Android.Material.TextField;
 using Plugin.CloudFirestore;
 using System;
 using System.Collections.Generic;
+using AndroidX.Fragment.App;
 
 namespace driver.Fragments
 {
-    public class ProfileFragment : Android.Support.V4.App.Fragment
+    public class ProfileFragment : Fragment
     {
         private TextInputEditText InputNames;
         private TextInputEditText InputSurname;

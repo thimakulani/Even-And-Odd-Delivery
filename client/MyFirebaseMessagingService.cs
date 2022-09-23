@@ -2,7 +2,7 @@
 using Android.App;
 using Android.Content;
 using Android.Media;
-using Android.Support.V4.App;
+using AndroidX.Core.App;
 using Firebase.Messaging;
 
 namespace client
@@ -28,7 +28,7 @@ namespace client
             var pendingIntent = PendingIntent.GetActivity(this, 0 /* Request code */, intent, PendingIntentFlags.OneShot);
 
             var defaultSoundUri = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
-            var notificationBuilder = new NotificationCompat.Builder(this)
+            var notificationBuilder = new NotificationCompat.Builder(this, "")
                 .SetSmallIcon(Resource.Mipmap.delivery_icon)
                 .SetContentTitle(remoteMessage.GetNotification().Title)
                 .SetContentText(messageBody)

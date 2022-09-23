@@ -2,11 +2,14 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.Gms.Extensions;
+using Android.Gms.Maps.Model;
 using Android.Locations;
 using Android.OS;
-using Android.Support.V7.App;
+using Android.Runtime;
 using Android.Views;
+using Android.Widget;
 using AndroidHUD;
+using AndroidX.AppCompat.App;
 using driver.Fragments;
 using driver.Models;
 using Firebase.Auth;
@@ -15,6 +18,7 @@ using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomNavigation;
 using Plugin.CloudFirestore;
 using System;
+using System.Threading.Tasks;
 using static Google.Android.Material.Navigation.NavigationBarView;
 using AlertDialog = Android.App.AlertDialog;
 
@@ -36,13 +40,23 @@ namespace driver.Activities
             toolbar = FindViewById<MaterialToolbar>(Resource.Id.toolbar_dashboad);
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
             navigation.SetOnItemSelectedListener(this);
-
+            Xamarin.Essentials.Connectivity.ConnectivityChanged += (sender, args) =>
+            {
+                if (args.NetworkAccess == Xamarin.Essentials.NetworkAccess.Internet)
+                {
+                    Toast.MakeText(this, "Connection established", ToastLength.Short).Show();
+                }
+                else
+                {
+                    Toast.MakeText(this, "Connection disconnected", ToastLength.Short).Show();
+                }
+            };
             CheckGps();
-            WelcomeFragment welcomeFrag = new WelcomeFragment();
+            MainFragment welcomeFrag = new MainFragment(this);
             SupportFragmentManager.BeginTransaction()
                 .Add(Resource.Id.frameLayout_container, welcomeFrag)
                 .Commit();
-            welcomeFrag.RequestEventHandler += WelcomeFrag_RequestEventHandler;
+           // welcomeFrag.RequestEventHandler += WelcomeFrag_RequestEventHandler;
             await FirebaseMessaging.Instance.SubscribeToTopic("requests");
 
             CrossCloudFirestore
@@ -56,13 +70,63 @@ namespace driver.Activities
                     {
                         DriverModel user = value.ToObject<DriverModel>();
                         toolbar.Title = $"{user.Name} {user.Surname}".ToUpper();
+                        if(user.Status == "Online")
+                        {
+                            UpdateCoordinate(true);
+                        }
+                        else
+                        {
+                            UpdateCoordinate(false);
+                        }
                     }
                 });
-
-
             CheckUserType();
+        }
+        public event EventHandler<PermissioGranede> PermissionHandler;
+        public class PermissioGranede : EventArgs
+        {
+            public bool Granted { get; set; }
+        }
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        {
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            if (grantResults[0] == Permission.Granted)
+            {
+                PermissionHandler.Invoke(this, new PermissioGranede { Granted = true });
+            }
+        }
+        public void UpdateCoordinate(bool flag)
+        {
+            if (flag)
+            {
 
-
+                Task startWork = new Task(() =>
+                {
+                    Task.Delay(500);
+                });
+                startWork.ContinueWith(async t =>
+                {
+                    try
+                    {
+                        var pos = await Xamarin.Essentials.Geolocation.GetLocationAsync();
+                        GeoPoint geoPoint = new GeoPoint(pos.Latitude, pos.Longitude);
+                        await CrossCloudFirestore
+                            .Current
+                            .Instance
+                            .Collection("USERS")
+                            .Document(FirebaseAuth.Instance.Uid)
+                            .UpdateAsync("Location", geoPoint);
+                        UpdateCoordinate(true);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                      
+                    }
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+                startWork.Start();
+            }
+           
         }
         private async void CheckUserType()
         {
@@ -124,11 +188,11 @@ namespace driver.Activities
             switch (item.ItemId)
             {
                 case Resource.Id.navigation_requests:
-                    WelcomeFragment welcomeFrag = new WelcomeFragment();
+                    MainFragment welcomeFrag = new MainFragment(this);
                     SupportFragmentManager.BeginTransaction()
                         .Replace(Resource.Id.frameLayout_container, welcomeFrag)
                         .Commit();
-                    welcomeFrag.RequestEventHandler += WelcomeFrag_RequestEventHandler;
+                    //welcomeFrag.RequestEventHandler += WelcomeFrag_RequestEventHandler;
                     return true;
                 case Resource.Id.navigation_history:
                     SupportFragmentManager.BeginTransaction()
@@ -208,7 +272,10 @@ namespace driver.Activities
 
         }
 
+        private void Upcoming()
+        {
 
+        }
 
     }
 }

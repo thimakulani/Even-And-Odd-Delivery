@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/DeliveryRootLayout"
+    android:background="@android:color/darker_gray"
+>
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragMap"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        tools:ignore="MissingAndroidNamespace" 
+    
+    />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relativeLayout1"
+    >
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            android:layout_margin="10dp"
+            app:cardElevation="10sp"
+        >
+
+            <LinearLayout
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/PickUpDestinationLayout"
+        >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                tools:ignore="Suspicious0dp"
+                android:id="@+id/RelativePickUpLocation"
+                android:layout_weight="1"
+                android:clickable="true"
+                
+            >
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:src="@drawable/icon_pick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView1"
+                    android:layout_centerVertical="true"
+                />
+                <com.google.android.material.textview.MaterialTextView
+                    android:text="@string/txt_pickup"
+                    android:textStyle="bold"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:id="@+id/TxtPickUpLocation"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:layout_toLeftOf="@+id/RdbPickUpLocation"
+                    android:layout_toRightOf="@+id/imageView1"
+                />
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/RdbPickUpLocation"
+                    android:layout_alignParentRight="true"
+                />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                tools:ignore="Suspicious0dp"
+                android:layout_height="0dp"
+                android:id="@+id/RelativeDestinationLocation"
+                android:layout_weight="1"
+                android:clickable="true"
+                
+                
+            >
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:src="@drawable/icon_dest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView1"
+                    android:layout_centerVertical="true"
+                />
+                <com.google.android.material.textview.MaterialTextView
+                    android:text="@string/txt_destination"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="12dp"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/TxtDestinationLocation"
+                    android:layout_toRightOf="@+id/imageView1"
+                    android:layout_toLeftOf="@+id/RdbDestinationLocation"
+                />
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/RdbDestinationLocation"
+                    android:layout_alignParentRight="true"
+                />
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_map_maker"
+            android:tint="#418889"
+            android:layout_centerInParent="true"
+            android:id="@+id/ImgCenterMarker"
+        />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/RelativeMyLocation"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+        >
+            <androidx.appcompat.widget.AppCompatImageView
+                android:src="@android:drawable/ic_menu_mylocation"
+                android:layout_width="52.5dp"
+                android:layout_height="52.0dp"
+                android:tint="#ff001e"
+                android:id="@+id/ImgMyLocation"
+            />
+        </RelativeLayout>
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:text="@string/txt_continue"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/BtnOpenBottomSheet"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            app:cornerRadius="10dp"
+            style="@android:style/Widget.Material.Light.Button"
+        />
+
+    </RelativeLayout>
+    <include layout="@layout/bottom_sheet"/> 
+    
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

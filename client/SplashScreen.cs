@@ -20,7 +20,7 @@ namespace client
             // Set our view from the "main" layout resource
             RequestedOrientation = ScreenOrientation.Portrait;
 
-
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
         }
         protected override void OnResume()
         {
@@ -31,9 +31,6 @@ namespace client
             });
             startWork.ContinueWith(t =>
             {
-
-
-
                 try
                 {
                     var user = FirebaseAuth.Instance.CurrentUser;
@@ -57,6 +54,11 @@ namespace client
                 }
             }, TaskScheduler.FromCurrentSynchronizationContext());
             startWork.Start();
+        }
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
     }

@@ -1,11 +1,12 @@
 ﻿using Android.OS;
 using Android.Views;
+using Firebase.Auth;
 using Google.Android.Material.Button;
 using System;
-
+using AndroidX.Fragment.App;
 namespace driver.Fragments
 {
-    public class WelcomeFragment : Android.Support.V4.App.Fragment
+    public class WelcomeFragment : Fragment
     {
 
 
@@ -23,6 +24,7 @@ namespace driver.Fragments
         {
             RequestBtn = view.FindViewById<MaterialButton>(Resource.Id.BtnGoOnline);
             RequestBtn.Click += RequestBtn_Click;
+            
         }
         public event EventHandler RequestEventHandler;
         private void RequestBtn_Click(object sender, EventArgs e)

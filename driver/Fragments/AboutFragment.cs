@@ -1,4 +1,4 @@
-﻿using Android.App;
+﻿using AndroidX.Fragment.App;
 using Android.OS;
 using Android.Views;
 using AndroidAboutPage;
@@ -6,7 +6,7 @@ using System;
 
 namespace driver.Fragments
 {
-    public class AboutFragment : Android.Support.V4.App.Fragment
+    public class AboutFragment : Fragment
     {
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -26,7 +26,7 @@ namespace driver.Fragments
                 Title = "About"
             };
 
-            View about = new AboutPage(Application.Context)
+            View about = new AboutPage(Context.ApplicationContext)
                 .IsRtl(false)
                 .SetImage(Resource.Drawable.delivery_icon_2)
                 .SetDescription("Even & Odds delivery")

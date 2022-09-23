@@ -1,0 +1,111 @@
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff9e9e9e"
+>
+    
+    <RelativeLayout
+        
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relativeLayout2"
+    >
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="6dp"
+            
+        >
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+            >
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_status"
+                 />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_status"
+                    
+                />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragMap"
+            android:layout_below="@+id/appBarLayout1"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            tools:ignore="MissingAndroidNamespace" 
+        />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@android:drawable/presence_online"
+            tools:ignore="ContentDescription" 
+            
+        />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/RequestMainMenuLayout"
+        >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/linearLayout1"
+                android:layout_above="@+id/navigation"
+                tools:ignore="PossiblyUselessParent"
+            >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/relativeLayout1"
+        
+                >
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:minWidth="25px"
+                        android:minHeight="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/RecyclerDeliveryRequest"
+                        android:scrollbars="vertical"
+                    />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="visible"
+        >
+            <include
+                layout="@layout/activity_request"
+                
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+         
+    </RelativeLayout>
+
+    <include layout="@layout/delivery_bottom_sheet"/> 
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

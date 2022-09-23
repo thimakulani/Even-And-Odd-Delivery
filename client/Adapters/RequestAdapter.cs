@@ -46,48 +46,27 @@ namespace client.Adapters
             // Replace the contents of the view with that element
             var holder = viewHolder as RequestAdapterViewHolder;
             int indexPos = position;
-            //if(items[indexPos].DriverName == null)
-            //{
-            //    holder.DriverName.Text = "Waiting for driver";
-            //}
-            //else
-            //{
-            //    holder.DriverName.Text = items[indexPos].DriverName;
-            //}
-
             holder.PickupLocation.Text = items[indexPos].PickupAddress;
             holder.Destination.Text = items[indexPos].DestinationAddress;
             holder.Price.Text = items[indexPos].Price;
             holder.Distance.Text = items[indexPos].Distance;
             
 
-            holder.HistoryDatesTimeCreated.Text = $"{items[indexPos].TimeStamp.ToDateTime():dddd, dd MMMM yyyy, HH: mm tt}";
+            holder.HistoryDatesTimeCreated.Text = $"{items[indexPos].RequestTime}";
             if (!string.IsNullOrWhiteSpace(items[indexPos].DriverId))
             {
                 holder.BtnCancelRequest.Visibility = ViewStates.Gone;
                 // holder.DriverName.Text = items[indexPos].DriverName;
                 holder.BtnViewDriver.Visibility = ViewStates.Visible;
 
-                CrossCloudFirestore
-                    .Current
-                    .Instance
-                    .Collection("USERS")
-                    .Document(items[indexPos].DriverId)
-                    .AddSnapshotListener((value, error) =>
-                    {
-                        if (value.Exists)
-                        {
-                            AppUsers users = value.ToObject<AppUsers>();
-                            holder.DriverName.Text = $"{users.Name} {users.Surname}";
-                        }
-                    });
+
 
             }
             switch (items[indexPos].Status)
             {
                 case "W":
                     holder.HistoryRequestStatus.Text = "Waiting for driver";
-                    holder.DriverName.Text = "==== No driver ====";
+                    //holder.DriverName.Text = "==== No driver ====";
                     break;
                 case "A":
                     holder.HistoryRequestStatus.Text = "Accepted";
@@ -102,8 +81,8 @@ namespace client.Adapters
                     break;
                 case "C":
                     holder.BtnCancelRequest.Visibility = ViewStates.Gone;
-                    holder.DriverName.Text = "==== No driver ====";
-                    holder.HistoryRequestStatus.Text = "Cancelled";
+                    //holder.DriverName.Text = "==== No driver ====";
+                    holder.HistoryRequestStatus.Text = "Canceled";
                     break;
             }
             //holder.TextView.Text = items[position];
@@ -122,7 +101,7 @@ namespace client.Adapters
 
     public class RequestAdapterViewHolder : RecyclerView.ViewHolder
     {
-        public TextView DriverName { get; set; }
+        //public TextView DriverName { get; set; }
         public TextView PickupLocation { get; set; }
         public TextView Destination { get; set; }
         public TextView Distance { get; set; }
@@ -137,7 +116,7 @@ namespace client.Adapters
                             Action<RequestAdapterClickEventArgs> viewDriverClickListener) : base(itemView)
         {
 
-            DriverName = itemView.FindViewById<TextView>(Resource.Id.HistoryDriverName);
+            //DriverName = itemView.FindViewById<TextView>(Resource.Id.HistoryDriverName);
             PickupLocation = itemView.FindViewById<TextView>(Resource.Id.HistoryPickupLocation);
             Destination = itemView.FindViewById<TextView>(Resource.Id.HistoryDestination);
             HistoryDatesTimeCreated = itemView.FindViewById<TextView>(Resource.Id.HistoryDatesTimeCreated);

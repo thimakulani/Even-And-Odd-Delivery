@@ -5,6 +5,9 @@ using client.Helpers;
 using Com.Google.Maps.Android;
 using Java.Util;
 using Newtonsoft.Json;
+using OSRMLib.OSRMServices;
+using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using yucee.MapsHelper;
@@ -13,8 +16,8 @@ namespace client.MapsHelper
 {
     public class MapFunctionHelper
     {
-        string mapkey;
-        GoogleMap map;
+        private string mapkey;
+        private GoogleMap map;
         public double distance;
         public double duration;
         public string distanceString;
@@ -43,7 +46,7 @@ namespace client.MapsHelper
         public async Task<string> FindCordinateAddress(LatLng position)
         {
             string url = GetGeoCodeUrl(position.Latitude, position.Longitude);
-            string json = "";
+            string json;
             string placeAddress = "";
 
             //Check for Internet connection
@@ -93,6 +96,7 @@ namespace client.MapsHelper
 
         }
 
+
         public void DrawTripOnMap(string json)
         {
             var directionData = JsonConvert.DeserializeObject<DirectionParser>(json);
@@ -117,7 +121,7 @@ namespace client.MapsHelper
                 .InvokeJointType(JointType.Round)
                 .Geodesic(true);
 
-            Android.Gms.Maps.Model.Polyline mPolyline = map.AddPolyline(polylineOptions);
+            map.AddPolyline(polylineOptions);
 
             //Get first point and lastpoint
             LatLng firstpoint = line[0];
@@ -136,7 +140,7 @@ namespace client.MapsHelper
             destinationMarkerOptions.SetIcon(BitmapDescriptorFactory.DefaultMarker(BitmapDescriptorFactory.HueRed));
 
             Marker pickupMarker = map.AddMarker(pickupMarkerOptions);
-            Marker destinationMarker = map.AddMarker(destinationMarkerOptions);
+            _ = map.AddMarker(destinationMarkerOptions);
 
             //Get Trip Bounds
             double southlng = directionData.routes[0].bounds.southwest.lng;
@@ -175,6 +179,9 @@ namespace client.MapsHelper
             return fares;
 
         }
+
+
+
 
     }
 }

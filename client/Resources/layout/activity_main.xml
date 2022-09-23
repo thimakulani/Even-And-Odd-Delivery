@@ -1,56 +1,94 @@
 
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/nav_drawer"
     android:layout_height="match_parent">
-    
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
 
-    >
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/delivery_icon"
-            android:alpha="0.3"
-            android:scaleType="fitCenter"
-            android:padding="75dp"
-            tools:ignore="MissingDimension" 
-            />
-        <com.google.android.material.appbar.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appBarLayout1"
+        
+        >
+        <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/appBarLayout1"
-        >
-            <com.google.android.material.appbar.MaterialToolbar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/toolbar_main"
-                app:titleTextColor="@android:color/white"
-            />
-        </com.google.android.material.appbar.AppBarLayout>
-        
-        <FrameLayout
-            android:minWidth="25px"
-            android:minHeight="25px"
-            android:layout_below="@+id/appBarLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/fragment_container" 
+            android:id="@+id/toolbar_main"
+            app:titleCentered="false"
+            app:navigationIconTint="@color/color_white"
+            app:titleTextColor="@android:color/white"
+            
         />
-    </RelativeLayout>
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="300dp"
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_below="@+id/appBarLayout1"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:itemTextColor="@color/colorPrimary"
-        app:itemIconTint="@color/colorPrimary"
-        android:id="@+id/nav_view"
+        android:id="@+id/fragment_container"
+        android:layout_above="@+id/bubble_nav"
         
-        
-    />
-</androidx.drawerlayout.widget.DrawerLayout>
+        />
+    <com.gauravk.bubblenavigation.BubbleNavigationLinearView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bubble_nav"
+        android:layout_alignParentBottom="true"
+        android:padding="12dp"
+        app:bnc_mode="spread"
+        >
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/item_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:bt_active="true"
+            app:bt_colorActive="@color/red_active"
+            app:bt_colorInactive="@color/red_inactive"
+            app:bt_icon="@mipmap/ic_dashboard_black_18dp"
+            app:bt_shape="@drawable/transition_background_drawable_home"
+            app:bt_title="@string/title_home" />
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/item_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:bt_badgeBackgroundColor="@color/green_active"
+            app:bt_colorActive="@color/blue_active"
+            app:bt_colorInactive="@color/blue_inactive"
+            app:bt_icon="@mipmap/ic_assessment_black_18dp"
+            app:bt_shape="@drawable/transition_background_drawable_search"
+            app:bt_title="@string/title_history" />
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/item_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:bt_colorActive="@color/blue_grey_active"
+            app:bt_colorInactive="@color/blue_grey_inactive"
+            app:bt_icon="@mipmap/help_icon"
+            app:bt_shape="@drawable/transition_background_drawable_like"
+            app:bt_title="@string/title_queries" />
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/item_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:bt_colorActive="@color/green_active"
+            app:bt_colorInactive="@color/green_inactive"
+            app:bt_icon="@mipmap/ic_account_circle_black_18dp"
+            app:bt_shape="@drawable/transition_background_drawable_list"
+            app:bt_title="@string/title_profile" />
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/item_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:bt_colorActive="@color/purple_active"
+            app:bt_colorInactive="@color/purple_inactive"
+            app:bt_icon="@android:drawable/ic_menu_close_clear_cancel"
+            app:bt_shape="@drawable/transition_background_drawable_person"
+            app:bt_title="@string/title_logout" />
+    </com.gauravk.bubblenavigation.BubbleNavigationLinearView>
+
+</RelativeLayout>

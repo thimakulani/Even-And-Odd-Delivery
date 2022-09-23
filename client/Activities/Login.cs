@@ -9,6 +9,7 @@ using Firebase.Auth;
 using Google.Android.Material.Button;
 using Google.Android.Material.FloatingActionButton;
 using Google.Android.Material.TextField;
+using ID.IonBit.IonAlertLib;
 using System;
 
 namespace client.Activities
@@ -20,9 +21,6 @@ namespace client.Activities
         FirebaseAuth auth;
 
         //loading progress dialog
-        private AlertDialog loading;
-        private AlertDialog.Builder loadingBuilder;
-
 
         /*Dialog*/
         private AlertDialog PasswordDialog;
@@ -49,6 +47,8 @@ namespace client.Activities
 
 
         private string UserEmail;
+        private IonAlert loadingDialog;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -107,14 +107,18 @@ namespace client.Activities
             }
             BtnLogin.Enabled = false;
 
-
+            loadingDialog = new IonAlert(this, IonAlert.ProgressType);
+            loadingDialog.SetSpinKit("DoubleBounce")
+                .SetSpinColor("#008D91")
+                .ShowCancelButton(false)
+                .Show();
 
             auth = FirebaseAuth.Instance;
             auth.SignInWithEmailAndPassword(InputEmail.Text.Trim(), InputPassword.Text.Trim())
                 .AddOnSuccessListener(this)
                 .AddOnCompleteListener(this)
                 .AddOnFailureListener(this);
-            LoadingProgress();
+            
 
 
         }
@@ -150,20 +154,6 @@ namespace client.Activities
                 .AddOnSuccessListener(this)
                 .AddOnCompleteListener(this)
                 .AddOnFailureListener(this);
-            LoadingProgress();
-        }
-
-        private void LoadingProgress()
-        {
-            loadingBuilder = new AlertDialog.Builder(this);
-            LayoutInflater inflater = (LayoutInflater)GetSystemService(Context.LayoutInflaterService);
-            View view = inflater.Inflate(Resource.Layout.loading_progress, null);
-
-
-            loadingBuilder.SetView(view);
-            loadingBuilder.SetCancelable(false);
-            loading = loadingBuilder.Create();
-            loading.Show();
         }
         private void BtnCloseDialog_Click(object sender, EventArgs e)
         {
@@ -176,13 +166,12 @@ namespace client.Activities
             if (EventType == 1)
             {
                 BtnLogin.Enabled = true;
-
+               
                 Intent intent = new Intent(this, typeof(MainActivity));
                 StartActivity(intent);
 
                 OverridePendingTransition(Resource.Animation.Side_in_right, Resource.Animation.Side_out_left);
-                //loading.Dismiss();
-                //  loading.Dispose();
+                
             }
             if (EventType == 2)
             {
@@ -192,7 +181,7 @@ namespace client.Activities
                 builder.SetTitle("Sent");
                 builder.SetMessage("Reset password link has been sent to your email address");
                 // builder.SetMessage(auth.CurrentUser.DisplayName);
-                builder.SetNeutralButton("Ok", delegate
+                builder.SetNeutralButton("OK", delegate
                 {
                     builder.Dispose();
                 });
@@ -218,7 +207,7 @@ namespace client.Activities
 
         public void OnComplete(Task task)
         {
-            loading.Dismiss();
+            loadingDialog.Dismiss();
         }
     }
 }

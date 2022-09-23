@@ -669,7 +669,7 @@ namespace client.Activities
          * **/
         private void CheckGps()
         {
-            LocationManager locationManager = (LocationManager)GetSystemService(Context.LocationService);
+            LocationManager locationManager = (LocationManager)GetSystemService(LocationService);
             bool gps_enable = false;
             // bool newtwork_enable = false;
             gps_enable = locationManager.IsProviderEnabled(LocationManager.GpsProvider);

@@ -1,0 +1,176 @@
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+>   
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIconTint="@color/md_white_1000"
+            app:navigationIcon="?android:attr/homeAsUpIndicator"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            />
+
+    </com.google.android.material.appbar.AppBarLayout>
+           
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        >
+           <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:enabled="false"
+                    android:textStyle="bold"
+                    android:id="@+id/InputPacelPickupLocation"
+                    android:hint="Pickup location"
+                    android:textColorHint="#220438"
+                    android:textColor="#220438"
+                    android:layout_marginTop="3dp"
+                    android:layout_below="@+id/InputPacelItemType"
+                />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:enabled="false"
+                    android:textStyle="bold"
+                    android:id="@+id/InputPacelDestination"
+                    android:hint="Destination"
+                    android:textColorHint="#220438"
+                    android:textColor="#220438"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_below="@+id/InputPacelPickupLocation"
+                />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:inputType="textPersonName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/InputPacelPersonN"
+                    android:hint="Person name"
+                    android:textColor="#220438"
+                    android:textColorHint="#220438"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/BtnPicupDate"
+                />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/InputPacelPersonContacts"
+                    android:hint="Person contact number"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#220438"
+                    android:textColorHint="#220438"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/InputPacelPersonN"
+                />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textStyle="bold"
+                    android:id="@+id/InputPacelItemType"
+                    android:hint="Item Description"
+                    android:textColorHint="#220438"
+                    android:textColor="#220438"
+                    android:layout_marginTop="3dp"
+                    android:layout_below="@+id/textView2"
+                />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:text="Payment method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtPaymentMethod"
+                android:layout_marginTop="3dp"
+                android:textColor="#9c4444"
+                android:visibility="gone"
+                android:layout_below="@+id/InputPacelPersonContacts"
+                android:textStyle="bold"
+            />
+            <RadioGroup
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/RdgPaymentMethod"
+                android:layout_below="@+id/txtPaymentMethod"
+                
+            >
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Cash"
+                    android:id="@+id/RdbCash"
+                    android:textStyle="bold"
+                    android:textColor="#2e7dd9"
+                />
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Credit"
+                    android:id="@+id/RdbOnline"
+                    android:textStyle="bold"
+                    android:textColor="#220438"
+                    
+                />
+            </RadioGroup>
+            <com.google.android.material.button.MaterialButton
+                android:text="Proceed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:id="@+id/BtnSubmitDeliveryRequest"
+                android:layout_below="@+id/RdgPaymentMethod"
+            />
+    
+
+    </LinearLayout>
+</LinearLayout>

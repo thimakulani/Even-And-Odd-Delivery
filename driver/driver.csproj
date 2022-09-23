@@ -77,8 +77,10 @@
     <Compile Include="Activities\Signup.cs" />
     <Compile Include="Adapters\HistoryAdapter.cs" />
     <Compile Include="Adapters\RequestAdapter.cs" />
+    <Compile Include="Dialogs\RequestDialogFragment.cs" />
     <Compile Include="Fragments\AboutFragment.cs" />
     <Compile Include="Fragments\HistoryFragment.cs" />
+    <Compile Include="Fragments\MainFragment.cs" />
     <Compile Include="Fragments\ProfileFragment.cs" />
     <Compile Include="Fragments\WelcomeFragment.cs" />
     <Compile Include="MapsHelper\DirectionParser.cs" />
@@ -96,14 +98,12 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\service_account.json" />
     <GoogleServicesJson Include="google-services.json" />
+    <AndroidAsset Include="Assets\uber_style.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\activity_main.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\values\ic_launcher_background.xml" />
     <AndroidResource Include="Resources\values\strings.xml" />
@@ -739,7 +739,17 @@
   <ItemGroup>
     <AndroidResource Include="Resources\values\dimens.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\main_fragment.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\request_dialog.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.

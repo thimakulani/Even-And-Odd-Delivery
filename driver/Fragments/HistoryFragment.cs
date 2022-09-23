@@ -1,6 +1,6 @@
-﻿using Android.App;
-using Android.OS;
+﻿using Android.OS;
 using Android.Views;
+using AndroidX.Fragment.App;
 using AndroidX.RecyclerView.Widget;
 using driver.Adapters;
 using driver.Models;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace driver.Fragments
 {
-    public class HistoryFragment : Android.Support.V4.App.Fragment
+    public class HistoryFragment : Fragment
     {
         private RecyclerView RecyclerHistory;
         private readonly List<DeliveryModal> items = new List<DeliveryModal>();
@@ -37,7 +37,7 @@ namespace driver.Fragments
         {
 
             RecyclerHistory = view.FindViewById<RecyclerView>(Resource.Id.RecyclerHistory);
-            LinearLayoutManager linearLayout = new LinearLayoutManager(Application.Context);
+            LinearLayoutManager linearLayout = new LinearLayoutManager(view.Context);
             RequestAdapter adapter = new RequestAdapter(items);
             RecyclerHistory.SetLayoutManager(linearLayout);
             RecyclerHistory.SetAdapter(adapter);

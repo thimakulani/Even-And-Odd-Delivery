@@ -88,11 +88,6 @@ namespace client.Fragments
                 InputPhone.Error = "Phone number cannot be empty";
                 return;
             }
-            if (string.IsNullOrEmpty(InputEmail.Text))
-            {
-                InputEmail.Error = "Email cannot be empty";
-                return;
-            }
             Dictionary<string, object> keyValues = new Dictionary<string, object>
             {
                 { "Name", InputNames.Text.Trim() },

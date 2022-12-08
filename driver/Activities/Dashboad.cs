@@ -5,6 +5,7 @@ using Android.Gms.Extensions;
 using Android.Gms.Maps.Model;
 using Android.Locations;
 using Android.OS;
+using Android.Provider;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
@@ -28,7 +29,7 @@ namespace driver.Activities
     public class Dashboad : AppCompatActivity, IOnItemSelectedListener
     {
         MaterialToolbar toolbar;
-        // private FirebaseMessaging firebaseMessaging;// = new FirebaseMessaging();
+        private DriverModel user = new DriverModel();
         protected async override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -52,6 +53,9 @@ namespace driver.Activities
                 }
             };
             CheckGps();
+            DocumentRef = CrossCloudFirestore
+                            .Current
+                            .Instance;
             MainFragment welcomeFrag = new MainFragment(this);
             SupportFragmentManager.BeginTransaction()
                 .Add(Resource.Id.frameLayout_container, welcomeFrag)
@@ -59,16 +63,15 @@ namespace driver.Activities
            // welcomeFrag.RequestEventHandler += WelcomeFrag_RequestEventHandler;
             await FirebaseMessaging.Instance.SubscribeToTopic("requests");
 
-            CrossCloudFirestore
-                .Current
-                .Instance
+            DocumentRef
                 .Collection("USERS")
                 .Document(FirebaseAuth.Instance.Uid)
                 .AddSnapshotListener((value, error) =>
                 {
+
                     if (value.Exists)
                     {
-                        DriverModel user = value.ToObject<DriverModel>();
+                        user = value.ToObject<DriverModel>();
                         toolbar.Title = $"{user.Name} {user.Surname}".ToUpper();
                         if(user.Status == "Online")
                         {
@@ -82,11 +85,43 @@ namespace driver.Activities
                 });
             CheckUserType();
         }
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            if (requestCode == 0)
+            {
+                if (!Settings.CanDrawOverlays(this))
+                {
+
+                }
+                else
+                {
+                    StartService(new Intent(this, typeof(FloatingService)));
+                }
+            }
+        }
         public event EventHandler<PermissioGranede> PermissionHandler;
         public class PermissioGranede : EventArgs
         {
             public bool Granted { get; set; }
         }
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            if(user.Status == "Online")
+            {
+                if (!Settings.CanDrawOverlays(this))
+                {
+                    StartActivityForResult(new Intent(Settings.ActionManageOverlayPermission, Android.Net.Uri.Parse("package:" + PackageName)), 0);
+                }
+                else
+                {
+                    StartService(new Intent(this, typeof(FloatingService)));
+
+                }
+            }
+
+        }
+        
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -95,8 +130,13 @@ namespace driver.Activities
                 PermissionHandler.Invoke(this, new PermissioGranede { Granted = true });
             }
         }
+        GeoPoint geoPoint;
+
+        private IFirestore DocumentRef;
+
         public void UpdateCoordinate(bool flag)
         {
+            
             if (flag)
             {
 
@@ -109,10 +149,8 @@ namespace driver.Activities
                     try
                     {
                         var pos = await Xamarin.Essentials.Geolocation.GetLocationAsync();
-                        GeoPoint geoPoint = new GeoPoint(pos.Latitude, pos.Longitude);
-                        await CrossCloudFirestore
-                            .Current
-                            .Instance
+                        geoPoint = new GeoPoint(pos.Latitude, pos.Longitude);
+                        await DocumentRef
                             .Collection("USERS")
                             .Document(FirebaseAuth.Instance.Uid)
                             .UpdateAsync("Location", geoPoint);
@@ -130,52 +168,46 @@ namespace driver.Activities
         }
         private async void CheckUserType()
         {
-            var results = await CrossCloudFirestore
-                .Current
-                .Instance
+            var results = await DocumentRef
                 .Collection("USERS")
                 .Document(FirebaseAuth.Instance.Uid)
                 .GetAsync();
-            DriverModel driver = results.ToObject<DriverModel>();
-            
-            if (driver.Role == "D")
+            if (results.Exists)
             {
-                var requests = await CrossCloudFirestore
-                    .Current
-                    .Instance
-                    .Collection("DELIVERY")
-                    .WhereEqualsTo("DriverId", FirebaseAuth.Instance.Uid)
-                    .WhereIn("Status", new[] { "A", "P" })
-                    .GetAsync();
-                if (requests.Count > 0)
+                DriverModel driver = results.ToObject<DriverModel>();
+
+                if (driver.Role == "D")
                 {
-                    Intent intent = new Intent(this, typeof(DeliveryRequestActivity));
-                    StartActivity(intent);
+                    var requests = await DocumentRef
+                        .Collection("DELIVERY")
+                        .WhereEqualsTo("DriverId", FirebaseAuth.Instance.Uid)
+                        .WhereIn("Status", new[] { "A", "P" })
+                        .GetAsync();
+                    if (requests.Count > 0)
+                    {
+                        Intent intent = new Intent(this, typeof(DeliveryRequestActivity));
+                        StartActivity(intent);
+                    }
+
                 }
-
-            }
-            else
-            {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.SetTitle("Error");
-                builder.SetCancelable(false);
-                builder.SetMessage("Your not registered as a driver, Please contact the administrator.");
-                builder.SetNeutralButton("Continue", delegate
+                else
                 {
-                    builder.Dispose();
-                    FirebaseAuth.Instance.SignOut();
-                    Finish();
-                });
-                builder.Show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.SetTitle("Error");
+                    builder.SetCancelable(false);
+                    builder.SetMessage("Your not registered as a driver, Please contact the administrator.");
+                    builder.SetNeutralButton("Continue", delegate
+                    {
+                        builder.Dispose();
+                        FirebaseAuth.Instance.SignOut();
+                        Finish();
+                    });
+                    builder.Show();
+                }
             }
 
         }
-        private void WelcomeFrag_RequestEventHandler(object sender, EventArgs e)
-        {
-            Intent intent = new Intent(this, typeof(DeliveryRequestActivity));
-            StartActivity(intent);
-            OverridePendingTransition(Resource.Animation.Side_in_left, Resource.Animation.Side_out_right);
-        }
+       
 
         private void HUD(string message)
         {

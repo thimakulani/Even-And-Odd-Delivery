@@ -78,6 +78,7 @@
     <Compile Include="Adapters\HistoryAdapter.cs" />
     <Compile Include="Adapters\RequestAdapter.cs" />
     <Compile Include="Dialogs\RequestDialogFragment.cs" />
+    <Compile Include="FloatingService.cs" />
     <Compile Include="Fragments\AboutFragment.cs" />
     <Compile Include="Fragments\HistoryFragment.cs" />
     <Compile Include="Fragments\MainFragment.cs" />
@@ -747,6 +748,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\request_dialog.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\layout_floating.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

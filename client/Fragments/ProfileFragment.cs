@@ -10,6 +10,8 @@ using Plugin.CloudFirestore;
 using System;
 using System.Collections.Generic;
 using AndroidX.Fragment.App;
+using AndroidX.AppCompat.Widget;
+
 namespace client.Fragments
 {
     public class ProfileFragment : Fragment
@@ -41,18 +43,20 @@ namespace client.Fragments
             ConnectViews(view);
             return view;
         }
-
+        AppCompatImageView img_edit;
         private void ConnectViews(View view)
         {
-            InputNames = view.FindViewById<TextInputEditText>(Resource.Id.ProfileUpdateName);
-            InputSurname = view.FindViewById<TextInputEditText>(Resource.Id.ProfileUpdateSurname);
-            InputPhone = view.FindViewById<TextInputEditText>(Resource.Id.ProfileUpdatePhone);
-            InputEmail = view.FindViewById<TextInputEditText>(Resource.Id.ProfileUpdateEmail);
-
-            BtnAppyChanges = view.FindViewById<MaterialButton>(Resource.Id.BtnUpdateProfile);
+            InputNames = view.FindViewById<TextInputEditText>(Resource.Id.InputName);
+            InputSurname = view.FindViewById<TextInputEditText>(Resource.Id.InputLastName);
+            InputPhone = view.FindViewById<TextInputEditText>(Resource.Id.InputPhone);
+            InputEmail = view.FindViewById<TextInputEditText>(Resource.Id.InputEmail);
+            img_edit = view.FindViewById<AppCompatImageView>(Resource.Id.img_edit);
+            BtnAppyChanges = view.FindViewById<MaterialButton>(Resource.Id.btn_update);
 
             BtnAppyChanges.Click += BtnAppyChanges_Click;
-            CrossCloudFirestore.Current.Instance.Collection("USERS")
+            CrossCloudFirestore
+                .Current
+                .Instance.Collection("USERS")
                .Document(FirebaseAuth.Instance.Uid)
                .AddSnapshotListener((snapshot, error) =>
                {
@@ -65,10 +69,29 @@ namespace client.Fragments
                        InputEmail.Text = user.Email;
                    }
                });
-
-
+            ViewState(false);
+            img_edit.Click += (s, e) =>
+            {
+                ViewState(true);
+            };
         }
-
+        private void ViewState(bool v)
+        {
+            InputEmail.Enabled = v;
+            InputNames.Enabled = v;
+            InputSurname.Enabled = v;
+            InputPhone.Enabled = v;
+            if (v)
+            {
+                BtnAppyChanges.Visibility = ViewStates.Visible;
+                img_edit.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                BtnAppyChanges.Visibility = ViewStates.Gone;
+                img_edit.Visibility = ViewStates.Visible;
+            }
+        }
 
         //public event EventHandler FailUpdateHandler; 
         private async void BtnAppyChanges_Click(object sender, EventArgs e)
@@ -100,7 +123,7 @@ namespace client.Fragments
                 .Document(FirebaseAuth.Instance.Uid)
                 .UpdateAsync(keyValues);
 
-
+            ViewState(false);
 
             AndHUD.Shared.ShowSuccess(context, "Profile has been successfully updated!!", MaskType.Black, TimeSpan.FromSeconds(3));
 

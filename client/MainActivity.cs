@@ -39,17 +39,7 @@ namespace client
                    .Commit();
                 toolbar_main.Title = "HOME";
             }
-            Xamarin.Essentials.Connectivity.ConnectivityChanged += (sender, args) =>
-            {
-                if(args.NetworkAccess == Xamarin.Essentials.NetworkAccess.Internet)
-                {
-                    Toast.MakeText(this, "Connection established", ToastLength.Short).Show();
-                }
-                else
-                {
-                    Toast.MakeText(this, "Connection disconnected", ToastLength.Short).Show();
-                }
-            };
+            
             CrossCloudFirestore
                 .Current
                 .Instance

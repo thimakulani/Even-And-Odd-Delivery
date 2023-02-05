@@ -147,7 +147,7 @@ namespace client.Fragments
                         .LocationExtensions
                         .CalculateDistance(new Xamarin.Essentials.Location(driver.Location.Latitude, driver.Location.Longitude),
                         new Xamarin.Essentials.Location(double.Parse(deliveryModal.PickupLat), double.Parse(deliveryModal.PickupLong)), Xamarin.Essentials.DistanceUnits.Kilometers);
-                    tempDrivers.Add(new TempDriver { Away = distance, Driver_Id = driver.Uid }); 
+                    tempDrivers.Add(new TempDriver { Away = distance, Driver_Id = driver.Uid });
                 }
                 tempDrivers.Sort((x, y) =>  x.Away.CompareTo(y.Away));
             }

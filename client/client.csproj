@@ -183,6 +183,9 @@
     <PackageReference Include="Polyliner.Net">
       <Version>1.0.2</Version>
     </PackageReference>
+    <PackageReference Include="Refractored.Controls.CircleImageView">
+      <Version>1.0.1</Version>
+    </PackageReference>
     <PackageReference Include="System.Collections.NonGeneric">
       <Version>4.3.0</Version>
     </PackageReference>

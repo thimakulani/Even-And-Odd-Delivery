@@ -17,4 +17,8 @@
   <string name="txt_price">PRICE</string>
   <string name="txt_distance">DISTANCE</string>
   <string name="txt_estimated_time">ESTIMATED TIME</string>
+	<string name="input_email">Email</string>
+	<string name="input_name">First Names</string>
+	<string name="input_last_name">Last Name</string>
+	<string name="input_phone_number">Phone number</string>
 </resources>

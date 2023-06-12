@@ -60,7 +60,7 @@ namespace driver.Activities
             SupportFragmentManager.BeginTransaction()
                 .Add(Resource.Id.frameLayout_container, welcomeFrag)
                 .Commit();
-           // welcomeFrag.RequestEventHandler += WelcomeFrag_RequestEventHandler;
+            // welcomeFrag.RequestEventHandler += WelcomeFrag_RequestEventHandler;
             await FirebaseMessaging.Instance.SubscribeToTopic("requests");
 
             DocumentRef
@@ -73,7 +73,7 @@ namespace driver.Activities
                     {
                         user = value.ToObject<DriverModel>();
                         toolbar.Title = $"{user.Name} {user.Surname}".ToUpper();
-                        if(user.Status == "Online")
+                        if (user.IsOnline)
                         {
                             UpdateCoordinate(true);
                         }
@@ -107,7 +107,7 @@ namespace driver.Activities
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            if(user.Status == "Online")
+            if (user.IsOnline)
             {
                 if (!Settings.CanDrawOverlays(this))
                 {
@@ -121,7 +121,7 @@ namespace driver.Activities
             }
 
         }
-        
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -136,7 +136,7 @@ namespace driver.Activities
 
         public void UpdateCoordinate(bool flag)
         {
-            
+
             if (flag)
             {
 
@@ -159,12 +159,12 @@ namespace driver.Activities
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                      
+
                     }
                 }, TaskScheduler.FromCurrentSynchronizationContext());
                 startWork.Start();
             }
-           
+
         }
         private async void CheckUserType()
         {
@@ -207,7 +207,7 @@ namespace driver.Activities
             }
 
         }
-       
+
 
         private void HUD(string message)
         {

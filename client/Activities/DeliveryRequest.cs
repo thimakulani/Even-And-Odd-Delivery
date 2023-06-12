@@ -108,10 +108,6 @@ namespace client.Activities
             base.OnCreate(savedInstanceState);
             RequestedOrientation = ScreenOrientation.Portrait;
             SetContentView(Resource.Layout.activity_delivery);
-            //ISharedPreferences pref = Application.Context.GetSharedPreferences("UserInfo", FileCreationMode.Private);
-            //
-
-
             ConnectViews();
 
             //test
@@ -902,6 +898,8 @@ namespace client.Activities
 
             
             var address = await geocode.GetFromLocationAsync(lat, lon, 1);
+            
+
 
             System.Text.StringBuilder s = new System.Text.StringBuilder();
             if (!string.IsNullOrEmpty(address[0].SubThoroughfare) && !string.IsNullOrWhiteSpace(address[0].SubThoroughfare))
@@ -925,10 +923,7 @@ namespace client.Activities
                 }
                 s.Append(address[0].Locality);
             }
-
             return s.ToString();
-
-
         }
     }
 }

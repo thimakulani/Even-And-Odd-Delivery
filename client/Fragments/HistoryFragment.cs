@@ -49,9 +49,9 @@ namespace client.Fragments
             CrossCloudFirestore
                 .Current
                 .Instance
-                .Collection("DELIVERY")
+                .Collection("REQUESTS")
                 .WhereEqualsTo("UserId", FirebaseAuth.Instance.Uid)
-                .OrderBy("TimeStamp", true)
+                .OrderBy("RequestTime", true)
                 .AddSnapshotListener((value, errors) =>
                 {
                     if (!value.IsEmpty)
@@ -59,7 +59,7 @@ namespace client.Fragments
                         foreach (var item in value.DocumentChanges)
                         {
                             DeliveryRequestModel modal = new DeliveryRequestModel();
-                           
+
                             switch (item.Type)
                             {
                                 case DocumentChangeType.Added:
@@ -74,7 +74,7 @@ namespace client.Fragments
                                     modal.KeyId = item.Document.Id;
                                     items[item.OldIndex] = modal;
                                     adapter.NotifyItemChanged(item.OldIndex);
-                                    
+
                                     break;
                                 case DocumentChangeType.Removed:
                                     break;

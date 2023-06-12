@@ -93,7 +93,7 @@ namespace driver.Activities
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            if(savedInstanceState == null)
+            if (savedInstanceState == null)
             {
                 CrossCloudFirestore.Current
                     .Instance.ClearPersistenceAsync();
@@ -128,7 +128,6 @@ namespace driver.Activities
             RequestMainMenuLayout = FindViewById<RelativeLayout>(Resource.Id.RequestMainMenuLayout);
             toolbarRequests = FindViewById<MaterialToolbar>(Resource.Id.toolbarRequests);
             ConnectDeliveryRequestNavigation();
-
             ConnectBottomSheet();
             toolbarRequests.NavigationClick += ToolbarRequests_NavigationClick;
             // Notifications();
@@ -256,7 +255,7 @@ namespace driver.Activities
                             {
                                 case DocumentChangeType.Added:
                                     var doc = dc.Document.ToObject<DeliveryModal>();
-                                    if(doc.Status == "W")
+                                    if (doc.Status == "W")
                                     {
                                         doc.KeyId = dc.Document.Id;
                                         items.Add(doc);
@@ -276,12 +275,12 @@ namespace driver.Activities
                                         if (mod.DriverId == FirebaseAuth.Instance.Uid)
                                         {
                                             CheckRequestAsync(mod);
-                                            adapter.NotifyDataSetChanged(); 
+                                            adapter.NotifyDataSetChanged();
                                         }
                                         else
                                         {
                                             int pos = items.FindIndex(x => x.KeyId == dc.Document.Id);
-                                            if(pos >= 0)
+                                            if (pos >= 0)
                                             {
                                                 items.RemoveAt(pos);
                                             }
@@ -302,11 +301,11 @@ namespace driver.Activities
                                     {
 
                                     }
-                                    
+
                                     if (mod.Status == "W" && mod.DriverId == null)
                                     {
                                         int pos = items.FindIndex(X => X.KeyId == dc.Document.Id);
-                                        if(pos>=0)
+                                        if (pos >= 0)
                                         {
                                             items.Add(mod);
                                         }
@@ -380,12 +379,12 @@ namespace driver.Activities
             txtRequestItemType.Text = items[indexPos].ItemType;
             txtRequestPickupLication.Text = items[indexPos].PickupAddress;
             txtRequestPrice.Text = items[indexPos].Price;
-            if(items[indexPos].Status == "W")
+            if (items[indexPos].Status == "W")
             {
                 txtRequestStatus.Text = "Waiting";
             }
 
-            
+
 
             txtRequestToContact.Text = items[indexPos].PersonContact;
             txtRequestToName.Text = items[indexPos].PersonName;
@@ -515,7 +514,7 @@ namespace driver.Activities
             else if (BtnPickupDestination.Text == "Done")
             {
                 int pos = items.FindIndex(x => x.KeyId == KeyPosition);
-                if(pos >= 0)
+                if (pos >= 0)
                 {
                     items.RemoveAt(pos);
                     adapter.NotifyDataSetChanged();

@@ -1,4 +1,7 @@
-﻿namespace driver.Models
+﻿using Plugin.CloudFirestore.Attributes;
+using System;
+
+namespace driver.Models
 {
     public class DriverModel
     {
@@ -12,6 +15,11 @@
         public string Type { get; set; }
         public string Color { get; set; }
         public string Make { get; set; }
-        public string Status { get; internal set; }
+
+        public object Status { get; set; }
+        [Ignored]
+        public bool IsOnline => Convert.ToBoolean(Status);
+
+
     }
 }

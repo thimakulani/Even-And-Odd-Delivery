@@ -3,7 +3,7 @@ using Plugin.CloudFirestore.Attributes;
 
 namespace driver.Models
 {
-    class DeliveryModal
+    public class DeliveryModal
     {
         public string Name { get; set; }
         public string Surname { get; set; }

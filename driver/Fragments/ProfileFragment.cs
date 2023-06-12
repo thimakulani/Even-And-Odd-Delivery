@@ -10,6 +10,7 @@ using Plugin.CloudFirestore;
 using System;
 using System.Collections.Generic;
 using AndroidX.Fragment.App;
+using AndroidX.AppCompat.Widget;
 
 namespace driver.Fragments
 {
@@ -21,10 +22,9 @@ namespace driver.Fragments
         private TextInputEditText InputEmail;
 
         private MaterialButton BtnAppyChanges;
-
+        private Context context;
 
         //userkeyId
-        private Context context;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -38,41 +38,62 @@ namespace driver.Fragments
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 
             var view = inflater.Inflate(Resource.Layout.update_profile_dialog, container, false);
+            //ISharedPreferences pref = Application.Context.GetSharedPreferences("UserInfo", FileCreationMode.Private);
             context = view.Context;
             ConnectViews(view);
-
             return view;
         }
-
+        AppCompatImageView img_edit;
         private void ConnectViews(View view)
         {
-            InputNames = view.FindViewById<TextInputEditText>(Resource.Id.ProfileUpdateName);
-            InputSurname = view.FindViewById<TextInputEditText>(Resource.Id.ProfileUpdateSurname);
-            InputPhone = view.FindViewById<TextInputEditText>(Resource.Id.ProfileUpdatePhone);
-            InputEmail = view.FindViewById<TextInputEditText>(Resource.Id.ProfileUpdateEmail);
-            BtnAppyChanges = view.FindViewById<MaterialButton>(Resource.Id.BtnUpdateProfile);
+            InputNames = view.FindViewById<TextInputEditText>(Resource.Id.InputName);
+            InputSurname = view.FindViewById<TextInputEditText>(Resource.Id.InputLastName);
+            InputPhone = view.FindViewById<TextInputEditText>(Resource.Id.InputPhone);
+            InputEmail = view.FindViewById<TextInputEditText>(Resource.Id.InputEmail);
+            img_edit = view.FindViewById<AppCompatImageView>(Resource.Id.img_edit);
+            BtnAppyChanges = view.FindViewById<MaterialButton>(Resource.Id.btn_update);
 
             BtnAppyChanges.Click += BtnAppyChanges_Click;
-
-            //ISharedPreferences pref = Application.Context.GetSharedPreferences("UserInfo", FileCreationMode.Private);
-            //UserKeyId = FirebaseAuth.Instance.CurrentUser.Uid;
-            CrossCloudFirestore.Current.Instance.Collection("USERS")
-                .Document(FirebaseAuth.Instance.Uid)
-                .AddSnapshotListener((snapshot, error) =>
-                {
-                    if (snapshot.Exists)
-                    {
-                        var user = snapshot.ToObject<DriverModel>();
-                        InputNames.Text = user.Name;
-                        InputSurname.Text = user.Surname;
-                        InputPhone.Text = user.Phone;
-                        InputEmail.Text = user.Email;
-                    }
-                });
+            CrossCloudFirestore
+                .Current
+                .Instance.Collection("USERS")
+               .Document(FirebaseAuth.Instance.Uid)
+               .AddSnapshotListener((snapshot, error) =>
+               {
+                   if (snapshot.Exists)
+                   {
+                       var user = snapshot.ToObject<DriverModel>();
+                       InputNames.Text = user.Name;
+                       InputSurname.Text = user.Surname;
+                       InputPhone.Text = user.Phone;
+                       InputEmail.Text = user.Email;
+                   }
+               });
+            ViewState(false);
+            img_edit.Click += (s, e) =>
+            {
+                ViewState(true);
+            };
+        }
+        private void ViewState(bool v)
+        {
+            InputEmail.Enabled = v;
+            InputNames.Enabled = v;
+            InputSurname.Enabled = v;
+            InputPhone.Enabled = v;
+            if (v)
+            {
+                BtnAppyChanges.Visibility = ViewStates.Visible;
+                img_edit.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                BtnAppyChanges.Visibility = ViewStates.Gone;
+                img_edit.Visibility = ViewStates.Visible;
+            }
         }
 
-
-
+        //public event EventHandler FailUpdateHandler; 
         private async void BtnAppyChanges_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(InputNames.Text))
@@ -90,21 +111,6 @@ namespace driver.Fragments
                 InputPhone.Error = "Phone number cannot be empty";
                 return;
             }
-            if (string.IsNullOrEmpty(InputEmail.Text))
-            {
-                InputEmail.Error = "Email cannot be empty";
-                return;
-            }
-
-            DriverModel d = new DriverModel()
-            {
-                Email = InputEmail.Text,
-                Name = InputNames.Text,
-                Phone = InputPhone.Text,
-                Surname = InputSurname.Text,
-
-            };
-
             Dictionary<string, object> keyValues = new Dictionary<string, object>
             {
                 { "Name", InputNames.Text.Trim() },
@@ -117,12 +123,15 @@ namespace driver.Fragments
                 .Document(FirebaseAuth.Instance.Uid)
                 .UpdateAsync(keyValues);
 
-
+            ViewState(false);
 
             AndHUD.Shared.ShowSuccess(context, "Profile has been successfully updated!!", MaskType.Black, TimeSpan.FromSeconds(3));
 
 
+
         }
+
+
 
     }
 }

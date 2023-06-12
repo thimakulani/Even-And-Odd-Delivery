@@ -94,6 +94,7 @@
             android:id="@+id/btn_accept"
             android:text="@string/txt_accept"
             
+            
         />
     </LinearLayout>
 </LinearLayout>

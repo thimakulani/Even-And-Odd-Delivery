@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<network-security-config>
+	<base-config cleartextTrafficPermitted="true" />
+</network-security-config>
+<!--<network-security-config>
+	<domain-config cleartextTrafficPermitted="true" >
+		<domain includeSubdomain="true">https://bsite.net/thimakulani</domain>
+		<domain includeSubdomain="true">10.0.0.2</domain>
+		<domain includeSubdomain="true">microsoft.com</domain>
+	</domain-config>
+</network-security-config>-->

@@ -13,6 +13,9 @@ using client.Activities;
 using ID.IonBit.IonAlertLib;
 using Android.Content;
 using System.Collections.Generic;
+using FirebaseAdmin.Messaging;
+using System.Net.Http;
+using System.Text;
 
 namespace client.Fragments
 {
@@ -41,9 +44,9 @@ namespace client.Fragments
         private TextInputEditText InputPersonName;
         private TextInputEditText InputPersonContact;
         private MaterialButton BtnSubmitDeliveryRequest;
-        private DeliveryModal deliveryModal;
+        private Requests deliveryModal;
 
-        public CompleteRequestDialog(DeliveryModal deliveryModal)
+        public CompleteRequestDialog(Requests deliveryModal)
         {
             this.deliveryModal = deliveryModal;
         }
@@ -92,15 +95,57 @@ namespace client.Fragments
                 deliveryModal.PersonContact = InputPersonContact.Text;
                 deliveryModal.PersonName = InputPersonName.Text;
                 deliveryModal.Status = "W";
-                deliveryModal.RequestTime = DateTime.Now.ToString("dddd, dd MMMM yyyy, HH:mm tt");
-                var query = await CrossCloudFirestore
-                    .Current
-                    .Instance
-                    .Collection("REQUESTS")
-                    .AddAsync(deliveryModal);
+                deliveryModal.RequestTime = DateTime.Now;
 
-                //Dictionary<string, object> keys = new Dictionary<string, object>();
 
+
+                try
+                {
+                    HttpClient httpClient = new HttpClient();
+                    string json = Newtonsoft.Json.JsonConvert.SerializeObject(deliveryModal);
+                    StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    var response = await httpClient.PostAsync($"{API.ApiUrl}/requests", content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var str = await response.Content.ReadAsStringAsync();
+                        var request = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(str);
+                        await CrossCloudFirestore
+                            .Current
+                            .Instance
+                            .Collection("REQUESTS")
+                            .Document(request.Id)
+                            .SetAsync(deliveryModal);
+                    }
+
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+                try
+                {
+                    var stream = Resources.Assets.Open("service_account.json");
+                    var fcm = FirebaseHelper.FirebaseAdminSDK.GetFirebaseMessaging(stream);
+                    FirebaseAdmin.Messaging.Message message = new FirebaseAdmin.Messaging.Message()
+                    {
+                        Topic = "requests",
+                        Notification = new Notification()
+                        {
+                            Title = "New Query",
+                            Body = $"REQUEST HAS BEEN MADE FOR ADDRESS:  {deliveryModal.PickupAddress.ToUpper()} TO {deliveryModal.DestinationAddress.ToLower()}",
+
+                        },
+                    };
+                    await fcm.SendAsync(message);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
 
                 var dlg = new IonAlert(view.Context, IonAlert.SuccessType);
                 dlg.SetTitleText("Success");
@@ -140,7 +185,7 @@ namespace client.Fragments
                     var distance = Xamarin.Essentials
                         .LocationExtensions
                         .CalculateDistance(new Xamarin.Essentials.Location(driver.Location.Latitude, driver.Location.Longitude),
-                        new Xamarin.Essentials.Location(double.Parse(deliveryModal.PickupLat), double.Parse(deliveryModal.PickupLong)), Xamarin.Essentials.DistanceUnits.Kilometers);
+                        new Xamarin.Essentials.Location(deliveryModal.PickupLat, deliveryModal.PickupLong), Xamarin.Essentials.DistanceUnits.Kilometers);
                     tempDrivers.Add(new TempDriver { Away = distance, Driver_Id = driver.Uid });
                 }
                 tempDrivers.Sort((x, y) => x.Away.CompareTo(y.Away));
@@ -171,5 +216,10 @@ namespace client.Fragments
     {
         public string Driver_Id { get; set; }
         public double Away { get; set; }
+    }
+    public class Response
+    {
+        public string Id { get; set; }
+        public string Content { get; set; }
     }
 }

@@ -59,7 +59,7 @@ namespace admin.Activities
             // CheckPermission();
             toolbar.Title = "Delivery Report";
             toolbar.NavigationClick += Toolbar_NavigationClick;
-            
+
             Dexter.WithActivity(this)
                 .WithPermission(Manifest.Permission.WriteExternalStorage)
                 .WithListener(this)
@@ -72,7 +72,7 @@ namespace admin.Activities
             CrossCloudFirestore
                 .Current
                 .Instance
-                .Collection("DELIVERY")//DeliveryRequests
+                .Collection("REQUESTS")//DeliveryRequests
                 .AddSnapshotListener(true, (value, error) =>
                 {
                     if (!value.IsEmpty)

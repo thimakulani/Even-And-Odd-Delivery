@@ -436,6 +436,21 @@ namespace driver.Fragments
                                                 requestDialog = new RequestDialogFragment(data);
                                                 requestDialog.Show(ChildFragmentManager.BeginTransaction(), null);
                                                 inProgress = true;
+                                                try
+                                                {
+                                                    // Use default vibration length
+                                                    Vibration.Vibrate();
+
+
+                                                }
+                                                catch (FeatureNotSupportedException ex)
+                                                {
+                                                    // Feature not supported on device
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    // Other error has occurred.
+                                                }
                                             }
                                         }
                                         break;

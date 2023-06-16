@@ -19,7 +19,7 @@ namespace driver.Models
         public object Status { get; set; }
         [Ignored]
         public bool IsOnline => Convert.ToBoolean(Status);
-
+        public Car Car { get; set; }
 
     }
 }

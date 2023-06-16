@@ -6,15 +6,19 @@ using Android.Gms.Tasks;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using AndroidHUD;
 using AndroidX.AppCompat.App;
 using client.Classes;
 using Firebase.Auth;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.Button;
 using Google.Android.Material.TextField;
+using ID.IonBit.IonAlertLib;
 using Plugin.CloudFirestore;
 using System;
 using System.IO;
+using System.Net.Http;
+using Xamarin.Essentials;
 using AlertDialog = Android.App.AlertDialog;
 
 namespace client.Activities
@@ -31,13 +35,11 @@ namespace client.Activities
         private TextInputEditText InputSurname;
         private TextInputEditText InputPhone;
         private TextView RegTxtTerms;
-        private TextInputEditText InputConfirmPassword;
         private TextInputEditText InputPassword;
 
 
         //loading progress dialog
-        private AlertDialog loading;
-        private AlertDialog.Builder loadingBuilder;
+
         //*****
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -56,7 +58,6 @@ namespace client.Activities
             InputEmail = FindViewById<TextInputEditText>(Resource.Id.RegisterInputEmail);
             RegTxtTerms = FindViewById<TextView>(Resource.Id.RegTxtTerms);
             InputPassword = FindViewById<TextInputEditText>(Resource.Id.RegisterInputPassword);
-            InputConfirmPassword = FindViewById<TextInputEditText>(Resource.Id.RegisterInputPassword2);
             BtnSubmitReg = FindViewById<MaterialButton>(Resource.Id.BtnRegister);
             Terms = FindViewById<CheckBox>(Resource.Id.RegTerms);
             MaterialToolbar toolbar = FindViewById<MaterialToolbar>(Resource.Id.toolbar1);
@@ -102,7 +103,7 @@ namespace client.Activities
 
         }
 
-        private void BtnSubmitReg_Click(object sender, EventArgs e)
+        private async void BtnSubmitReg_Click(object sender, EventArgs e)
         {
 
             if (string.IsNullOrEmpty(InputName.Text) && string.IsNullOrWhiteSpace(InputName.Text))
@@ -136,28 +137,52 @@ namespace client.Activities
                 InputPassword.Error = "provide your password";
                 return;
             }
-            if (string.IsNullOrEmpty(InputConfirmPassword.Text) && string.IsNullOrWhiteSpace(InputConfirmPassword.Text))
-            {
-                InputConfirmPassword.RequestFocus();
-                InputConfirmPassword.Text = "confirm your password";
-                return;
-            }
-            if (InputPassword.Text != InputConfirmPassword.Text)
-            {
-                InputConfirmPassword.RequestFocus();
-                InputConfirmPassword.Error = "password does not match";
-                return;
-            }
+
+
 
             if (Terms.Checked)
             {
-                LoadingProgress();
-                BtnSubmitReg.Enabled = false;
-                FirebaseAuth auth = FirebaseAuth.Instance;
-                auth.CreateUserWithEmailAndPassword(InputEmail.Text.Trim(), InputPassword.Text.Trim())
-                    .AddOnSuccessListener(this)
-                    .AddOnFailureListener(this)
-                    .AddOnCompleteListener(this);
+                var loadingDialog = new IonAlert(this, IonAlert.ProgressType);
+                loadingDialog.SetSpinKit("DoubleBounce")
+                    .ShowCancelButton(false)
+                    .Show();
+                UserSignUp user = new UserSignUp()
+                {
+                    Email = InputEmail.Text.Trim(),
+                    Password = InputPassword.Text.Trim(),
+                    Name = InputName.Text.Trim(),
+                    Surname = InputSurname.Text.Trim(),
+                    Phone = InputPhone.Text.Trim(),
+                    Type = "Customer",
+
+                };
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(user);
+
+
+                try
+                {
+                    HttpClient httpClient = new HttpClient();
+                    HttpContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                    var response = await httpClient.PostAsync($"{API.ApiUrl}/account/signup", httpContent);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        AndHUD.Shared.ShowSuccess(this, "Your account has been successfully created", MaskType.Clear, TimeSpan.FromSeconds(3));
+                    }
+                    else
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+                        AndHUD.Shared.ShowError(this, result, MaskType.Clear, TimeSpan.FromSeconds(3));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    AndHUD.Shared.ShowError(this, ex.Message, MaskType.Clear, TimeSpan.FromSeconds(3));
+                }
+                finally
+                {
+                    loadingDialog.Dismiss();
+                }
+
             }
             else
             {
@@ -173,23 +198,10 @@ namespace client.Activities
 
         }
 
-        private void LoadingProgress()
-        {
-            loadingBuilder = new AlertDialog.Builder(this);
-            LayoutInflater inflater = (LayoutInflater)GetSystemService(Context.LayoutInflaterService);
-            View view = inflater.Inflate(Resource.Layout.loading_progress, null);
-
-
-            loadingBuilder.SetView(view);
-            loadingBuilder.SetCancelable(false);
-            loading = loadingBuilder.Create();
-            loading.Show();
-        }
-
 
         public void OnComplete(Task task)
         {
-            loading.Dismiss();
+            //loading.Dismiss();
             BtnSubmitReg.Enabled = true;
         }
 
@@ -263,7 +275,7 @@ namespace client.Activities
                 .Collection("USERS")
                 .Document(FirebaseAuth.Instance.Uid)
                 .SetAsync(user);
-            
+
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.SetTitle("Successful");

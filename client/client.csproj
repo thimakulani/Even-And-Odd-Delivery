@@ -69,17 +69,18 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activities\DeliveryRequest.cs" />
     <Compile Include="Activities\Login.cs" />
     <Compile Include="Activities\Register.cs" />
     <Compile Include="Adapters\AnnouncementAdapter.cs" />
     <Compile Include="Adapters\RequestAdapter.cs" />
     <Compile Include="Classes\AnnouncementModel.cs" />
+    <Compile Include="Classes\API.cs" />
     <Compile Include="Classes\AppUsers.cs" />
     <Compile Include="Classes\DatePickerFragment.cs" />
     <Compile Include="Classes\DelivaryModal.cs" />
     <Compile Include="Classes\DeliveryRequestModel.cs" />
     <Compile Include="Classes\Queries.cs" />
+    <Compile Include="Classes\Requests.cs" />
     <Compile Include="Classes\TimePickerFragment.cs" />
     <Compile Include="Classes\TripPrice.cs" />
     <Compile Include="FirebaseHelper\FirebaseAdminSDK.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Fragments\DriverDialogFragment.cs" />
     <Compile Include="Fragments\DriverRegistrationDialog.cs" />
     <Compile Include="Fragments\DriverRequestDialog.cs" />
+    <Compile Include="Fragments\ForgotPasswordDlgFragment.cs" />
     <Compile Include="Fragments\HelpFragment.cs" />
     <Compile Include="Fragments\HistoryFragment.cs" />
     <Compile Include="Fragments\MainFragment.cs" />
@@ -198,6 +200,9 @@
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.ConstraintLayout.Solver">
       <Version>2.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Build.Download">
+      <Version>0.11.4</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
     <PackageReference Include="Xamarin.Firebase.Auth">
@@ -758,7 +763,7 @@
     <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_local_shipping_black_18dp.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Dialogs\" />
+    <AndroidResource Include="Resources\xml\network_security_config.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\main_fragment.xml">

@@ -297,7 +297,14 @@ namespace driver.Activities
                 Role = null,
                 Surname = InputSurname.Text,
                 Type = BtnType.Text,
-                Uid = FirebaseAuth.Instance.Uid
+                Uid = FirebaseAuth.Instance.Uid,
+                Car = new Car()
+                {
+                    Color = InputColor.Text,
+                    Make = InputMake.Text,
+                    RegNo = InputRegNo.Text,
+                    Type = BtnType.Text,
+                }
 
             };
 
@@ -318,4 +325,14 @@ namespace driver.Activities
 
 
     }
+}
+public class Car
+{
+    public string Id { get; set; }
+    public string RegNo { get; set; }
+    public string Type { get; set; }
+    public string Color { get; set; }
+    public string Make { get; set; }
+    public string UserId { get; set; }
+
 }

@@ -16,6 +16,8 @@ using Google.Android.Material.AppBar;
 using Google.Android.Material.Dialog;
 using Plugin.CloudFirestore;
 using System;
+using System.Net.Http;
+using Xamarin.Essentials;
 
 namespace client
 {
@@ -23,7 +25,7 @@ namespace client
     public class MainActivity : AppCompatActivity
     {
         private AppUsers users = new AppUsers();
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected async override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             // Set our view from the "main" layout resource
@@ -31,7 +33,7 @@ namespace client
             RequestedOrientation = ScreenOrientation.Portrait;
 
             var toolbar_main = FindViewById<MaterialToolbar>(Resource.Id.toolbar_main);
-            if(savedInstanceState == null)
+            if (savedInstanceState == null)
             {
 
                 SupportFragmentManager.BeginTransaction()
@@ -39,33 +41,36 @@ namespace client
                    .Commit();
                 toolbar_main.Title = "HOME";
             }
-            
-            CrossCloudFirestore
-                .Current
-                .Instance
-                .Collection("USERS")
-                .Document(FirebaseAuth.Instance.Uid)
-                .AddSnapshotListener(async (value, error) =>
-                {
-                    if (value.Exists)
-                    {
-                        users = value.ToObject<AppUsers>();
-                        await FirebaseMessaging.Instance.SubscribeToTopic(FirebaseAuth.Instance.Uid);
-                        await FirebaseMessaging.Instance.SubscribeToTopic("A");
-                    }
-                });
-
+            var id = Preferences.Get("Id", "");
+            await FirebaseMessaging.Instance.SubscribeToTopic(id);
+            await FirebaseMessaging.Instance.SubscribeToTopic("A");
             IsLocationEnabled();
 
-            
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                var response = await httpClient.GetAsync($"{API.ApiUrl}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    users = Newtonsoft.Json.JsonConvert.DeserializeObject<AppUsers>(json);
 
-            
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+
+
+
             toolbar_main.InflateMenu(Resource.Menu.top_bar_menue);
             toolbar_main.MenuItemClick += (s, e) =>
             {
-                if(e.Item.ItemId == Resource.Id.about)
+                if (e.Item.ItemId == Resource.Id.about)
                 {
-                    
+
                     SupportFragmentManager.BeginTransaction()
                         .Replace(Resource.Id.fragment_container, new AboutFragment())
                         .Commit();
@@ -127,7 +132,7 @@ namespace client
             BubbleNavigationLinearView bubbleNavigationLinearView = FindViewById<BubbleNavigationLinearView>(Resource.Id.bubble_nav);
             bubbleNavigationLinearView.NavigationChange += (e, position) =>
             {
-               if(position.Position == 0)
+                if (position.Position == 0)
                 {
                     SupportFragmentManager.BeginTransaction()
                        .Replace(Resource.Id.fragment_container, new MainFragment(this))
@@ -179,7 +184,7 @@ namespace client
                     });
                     alert.Show();
                 }
-            }; 
+            };
         }
         public event EventHandler<PermissioGranede> PermissionHandler;
         public class PermissioGranede : EventArgs
@@ -224,6 +229,6 @@ namespace client
 
         }
 
-     
+
     }
 }

@@ -104,17 +104,31 @@ namespace client.Fragments
                 .Document("Price")
                 .AddSnapshotListener((snapshot, error) =>
                 {
-                    if (snapshot.Exists)
+                    try
                     {
-                        var price = snapshot.ToObject<TripPrice>();
-                        InitialPrice = double.Parse(price.InitialPrice);
-                        AfterInitial = double.Parse(price.PriceAfter);
+                        if (snapshot.Exists)
+                        {
+                            var price = snapshot.ToObject<TripPrice>();
+                            InitialPrice = double.Parse(price.InitialPrice);
+                            AfterInitial = double.Parse(price.PriceAfter);
+                        }
+                        else
+                        {
+                            InitialPrice = 25.0;
+                            AfterInitial = 7.0;
+                        }
                     }
-                    else
+                    catch (Exception ex)
+                    {
+
+                        Console.WriteLine(ex.Message);
+                    }
+                    finally
                     {
                         InitialPrice = 25.0;
                         AfterInitial = 7.0;
                     }
+
                 });
         }
         MaterialButton BtnRequest;
@@ -160,7 +174,7 @@ namespace client.Fragments
             ImgMyLocation.Click += async (sender, e) =>
             {
                 var pos = await Geolocation.GetLastKnownLocationAsync();
-                if(pos!=null )
+                if (pos != null)
                 {
                     if (move)
                     {
@@ -171,11 +185,11 @@ namespace client.Fragments
                         else
                         {
                             TxtDestination.Text = await GetAddress(pos.Latitude, pos.Longitude);
-                        } 
+                        }
                     }
                 }
             };
-          
+
             BtnRequest.Click += BtnRequest_Click;
             BtnContinue.Click += BtnContinue_Click;
         }
@@ -184,16 +198,16 @@ namespace client.Fragments
 
         private void BtnRequest_Click(object sender, EventArgs e)
         {
-            DeliveryModal deliveryModal = new DeliveryModal()
+            Requests deliveryModal = new Requests()
             {
-                Distance = TxtDistance.Text,
+                Distance = CalculatedTripDistance,
                 DestinationAddress = TxtDestination.Text,
                 PickupAddress = TxtPickup.Text,
-                DestinationLat = dest_lat_lan.Latitude.ToString(),
-                DestinationLong = dest_lat_lan.Longitude.ToString(),
-                PickupLat = dest_lat_lan.Latitude.ToString(),
-                PickupLong = dest_lat_lan.Longitude.ToString(),
-                Price = TxtPrice.Text,
+                DestinationLat = dest_lat_lan.Latitude,
+                DestinationLong = dest_lat_lan.Longitude,
+                PickupLat = pickup_lat_lan.Latitude,
+                PickupLong = pickup_lat_lan.Longitude,
+                Price = CalculatedTripPrice,
                 UserId = FirebaseAuth.Instance.Uid,
             };
             CompleteRequestDialog complete = new CompleteRequestDialog(deliveryModal);
@@ -210,17 +224,17 @@ namespace client.Fragments
 
         private void BtnContinue_Click(object sender, EventArgs e)
         {
-            if(dest_lat_lan != null && pickup_lat_lan != null)
+            if (dest_lat_lan != null && pickup_lat_lan != null)
             {
 
-                
+
                 var startLocation = new OSRMLib.Helpers.Location(pickup_lat_lan.Latitude, pickup_lat_lan.Longitude);
                 var destLocation = new OSRMLib.Helpers.Location(dest_lat_lan.Latitude, dest_lat_lan.Longitude);
 
-                
+
                 GetRoute(startLocation, destLocation);
-                
-               
+
+
             }
         }
 
@@ -244,14 +258,14 @@ namespace client.Fragments
         {
             var target = gmap.CameraPosition.Target;
             var pos = new LatLng(target.Latitude, target.Longitude);
-            if(pos != null && move)
+            if (pos != null && move)
             {
-                if(NetworkAccess.Internet != Connectivity.NetworkAccess)
-                { 
-                    return; 
+                if (NetworkAccess.Internet != Connectivity.NetworkAccess)
+                {
+                    return;
                 }
                 string address = await GetAddress(pos.Latitude, pos.Longitude);
-                if(address == null)
+                if (address == null)
                 {
                     return;
                 }
@@ -270,7 +284,6 @@ namespace client.Fragments
         }
         private async Task<string> GetAddress(double lat, double lon)
         {
-
             try
             {
                 var r = await Geocoding.GetPlacemarksAsync(lat, lon);
@@ -316,7 +329,8 @@ namespace client.Fragments
         }
         //osrm
         RouteService routeS = new RouteService();
-
+        private double CalculatedTripPrice = 0.0;
+        private double CalculatedTripDistance = 0.0;
         public async void GetRoute(OSRMLib.Helpers.Location startPos, OSRMLib.Helpers.Location endPos)
         {
             BtnContinue.Enabled = false;
@@ -325,7 +339,7 @@ namespace client.Fragments
             routeS.Coordinates = new List<OSRMLib.Helpers.Location> { startPos, endPos };
 
             var response = await routeS.Call();
-            
+
             var points = response.Routes[0].Geometry;
             Java.Util.ArrayList routeList = new Java.Util.ArrayList();
             foreach (var point in points)
@@ -349,7 +363,7 @@ namespace client.Fragments
             MarkerOptions pickupMarkerOptions = new MarkerOptions();
             pickupMarkerOptions.SetPosition(firstpoint);
             pickupMarkerOptions.SetTitle("Pickup Location");
-            
+
             pickupMarkerOptions.SetIcon(BitmapDescriptorFactory.DefaultMarker(BitmapDescriptorFactory.HueGreen));
 
 
@@ -374,21 +388,23 @@ namespace client.Fragments
 
 
             ImgCenterMarker.Visibility = ViewStates.Gone;
-            double distance = Math.Round(response.Routes[0].Legs[0].Distance/1000,2);
+            double distance = Math.Round(response.Routes[0].Legs[0].Distance / 1000, 2);
             TxtDistance.Text = $"{distance} KM";
-            TxtDuration.Text = $"{Math.Round(response.Routes[0].Duration/60)} Minutes";
+            CalculatedTripDistance = distance;
+            TxtDuration.Text = $"{Math.Round(response.Routes[0].Duration / 60)} Minutes";
             TxtPrice.Text = $"R{CalculatePrice(distance)}";
-            
+            CalculatedTripPrice = CalculatePrice(distance);
+
             bottomSheet.State = BottomSheetBehavior.StateExpanded;
             ImgCenterMarker.Visibility = ViewStates.Gone;
             BtnContinue.Enabled = true;
             BtnContinue.Text = "CONTINUE";
             move = false;
 
-            
+
 
         }
-        private bool move = true; 
+        private bool move = true;
         private double CalculatePrice(double distance)
         {
             double fares;

@@ -5,31 +5,35 @@ using Android.Gms.Tasks;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using AndroidHUD;
+using AndroidX.AppCompat.App;
+using client.Classes;
+using client.Fragments;
 using Firebase.Auth;
+using Firebase.Firestore.Auth;
 using Google.Android.Material.Button;
 using Google.Android.Material.FloatingActionButton;
 using Google.Android.Material.TextField;
 using ID.IonBit.IonAlertLib;
 using System;
+using System.Net.Http;
+using Xamarin.Essentials;
 
 namespace client.Activities
 {
     [Activity(Label = "Login", NoHistory = true)]
-    public class Login : Activity, IOnSuccessListener, IOnFailureListener, IOnCompleteListener
+    public class Login : AppCompatActivity//, IOnSuccessListener, IOnFailureListener, IOnCompleteListener
     {
         //firebase auth
-        FirebaseAuth auth;
-
-        //loading progress dialog
 
         /*Dialog*/
-        private AlertDialog PasswordDialog;
-        private AlertDialog.Builder dialogBuilder;
+        /* private AlertDialog PasswordDialog;
+         private AlertDialog.Builder dialogBuilder;
 
-        private FloatingActionButton BtnCloseDialog;
-        private TextInputEditText ResetInputEmail;
-        private MaterialButton BtnReset;
-        private int EventType;
+         private FloatingActionButton BtnCloseDialog;
+         private TextInputEditText ResetInputEmail;
+         private MaterialButton BtnReset;
+         private int EventType;*/
         /**/
         private MaterialButton BtnLogin;
         private TextView TxtSignUp;
@@ -38,7 +42,6 @@ namespace client.Activities
         private TextInputEditText InputPassword;
 
         /*root layout*/
-        private RelativeLayout rootLayout;
 
 
 
@@ -71,7 +74,6 @@ namespace client.Activities
             TxtForgotPassword = FindViewById<TextView>(Resource.Id.TxtForgotPassword);
             InputEmail = FindViewById<TextInputEditText>(Resource.Id.LoginInputEmail);
             InputPassword = FindViewById<TextInputEditText>(Resource.Id.LoginInputPassword);
-            rootLayout = FindViewById<RelativeLayout>(Resource.Id.rootLayout);
             /////user infor
             //
             InputEmail.Text = UserEmail;
@@ -81,8 +83,8 @@ namespace client.Activities
         }
         private void TxtForgotPassword_Click(object sender, EventArgs e)
         {
-            ResetPasswordDialog();
-            rootLayout.Alpha = 0.5f;
+            ForgotPasswordDlgFragment forgotPasswordDlgFragment = new ForgotPasswordDlgFragment();
+            forgotPasswordDlgFragment.Show(SupportFragmentManager.BeginTransaction(), "");
         }
         private void TxtSignUp_Click(object sender, EventArgs e)
         {
@@ -93,7 +95,6 @@ namespace client.Activities
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
-            EventType = 1;
 
             if (string.IsNullOrEmpty(InputEmail.Text) && string.IsNullOrWhiteSpace(InputEmail.Text))
             {
@@ -113,34 +114,67 @@ namespace client.Activities
                 .ShowCancelButton(false)
                 .Show();
 
-            auth = FirebaseAuth.Instance;
-            auth.SignInWithEmailAndPassword(InputEmail.Text.Trim(), InputPassword.Text.Trim())
-                .AddOnSuccessListener(this)
-                .AddOnCompleteListener(this)
-                .AddOnFailureListener(this);
-            
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    UserLogin userLogin = new UserLogin()
+                    {
+                        Email = InputEmail.Text.Trim(),
+                        Password = InputPassword.Text.Trim(),
+                    };
+                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(userLogin);
+                    HttpClient httpClient = new HttpClient();
+                    HttpContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                    var response = await httpClient.PostAsync($"{API.ApiUrl}/account/login", httpContent);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+                        var user = Newtonsoft.Json.JsonConvert.DeserializeObject<AppUsers>(result);
+                        Preferences.Set("Id", user.Id);
+                        Preferences.Set("e", user.Email);
+                        Preferences.Set("p", userLogin.Password);
+                        Intent intent = new Intent(Application.Context, typeof(MainActivity));
+                        StartActivity(intent);
+                    }
+                    else
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+                        AndHUD.Shared.ShowError(this, result, MaskType.Clear, TimeSpan.FromSeconds(3));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    AndHUD.Shared.ShowError(this, ex.Message, MaskType.Clear, TimeSpan.FromSeconds(3));
+                }
+                finally
+                {
+                    loadingDialog.Dismiss();
+                }
+            });
+
 
 
         }
         private void ResetPasswordDialog()
         {
 
-            dialogBuilder = new AlertDialog.Builder(this);
+            /*dialogBuilder = new AlertDialog.Builder(this);
             LayoutInflater inflater = (LayoutInflater)GetSystemService(Context.LayoutInflaterService);
             View view = inflater.Inflate(Resource.Layout.reset_password_dialog, null);
 
             ResetInputEmail = view.FindViewById<TextInputEditText>(Resource.Id.ResetInputEmail);
             BtnReset = view.FindViewById<MaterialButton>(Resource.Id.BtnReset);
-            BtnCloseDialog = view.FindViewById<FloatingActionButton>(Resource.Id.FabCloseResetDialog);
-            BtnCloseDialog.Click += BtnCloseDialog_Click;
-            BtnReset.Click += BtnReset_Click;
-            dialogBuilder.SetView(view);
-            dialogBuilder.SetCancelable(false);
-            PasswordDialog = dialogBuilder.Create();
-            PasswordDialog.Show();
+            BtnCloseDialog = view.FindViewById<FloatingActionButton>(Resource.Id.FabCloseResetDialog);*/
+            /* BtnCloseDialog.Click += BtnCloseDialog_Click;
+             BtnReset.Click += BtnReset_Click;*/
+            /*  dialogBuilder.SetView(view);
+              dialogBuilder.SetCancelable(false);
+              PasswordDialog = dialogBuilder.Create();
+              PasswordDialog.Show();*/
         }
 
-        private void BtnReset_Click(object sender, EventArgs e)
+        /*private void BtnReset_Click(object sender, EventArgs e)
         {
             EventType = 2;
             if (string.IsNullOrEmpty(ResetInputEmail.Text))
@@ -149,29 +183,63 @@ namespace client.Activities
                 //ResetInputEmail.RequestFocus();
                 return;
             }
-            auth = FirebaseAuth.Instance;
-            auth.SendPasswordResetEmail(ResetInputEmail.Text.Trim())
-                .AddOnSuccessListener(this)
-                .AddOnCompleteListener(this)
-                .AddOnFailureListener(this);
-        }
-        private void BtnCloseDialog_Click(object sender, EventArgs e)
+            if (string.IsNullOrEmpty(InputEmail.Text))
+            {
+                InputEmail.Error = "provide your email";
+                return;
+            }
+
+            UserLogin userLogin = new UserLogin()
+            {
+                Email = InputEmail.Text.Trim(),
+                Password = InputNewPassword.Text.Trim()
+            };
+            try
+            {
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(userLogin);
+                HttpContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpClient httpClient = new HttpClient();
+                var response = await httpClient.PostAsync($"{API.ApiUrl}/account/resetpassword", httpContent);
+                if (response.IsSuccessStatusCode)
+                {
+                    var results = await response.Content.ReadAsStringAsync();
+                    AndHUD.Shared.ShowSuccess(context, $"{results}", MaskType.Black, TimeSpan.FromSeconds(2));
+                    Dismiss();
+                }
+                else
+                {
+                    var results = await response.Content.ReadAsStringAsync();
+                    AndHUD.Shared.ShowError(context, $"{results}", MaskType.Black, TimeSpan.FromSeconds(2));
+                }
+            }
+            catch (Exception ex)
+            {
+                AndHUD.Shared.ShowError(context, $"{ex.Message}", MaskType.Black, TimeSpan.FromSeconds(2));
+
+            }
+            finally
+            {
+                loadingDialog.Dismiss();
+            }
+        };*/
+    }
+    /*    private void BtnCloseDialog_Click(object sender, EventArgs e)
         {
             rootLayout.Alpha = 1f;
             PasswordDialog.Dismiss();
             //  PasswordDialog.Dispose();
-        }
-        public void OnSuccess(Java.Lang.Object result)
+        }*/
+    /*    public void OnSuccess(Java.Lang.Object result)
         {
             if (EventType == 1)
             {
                 BtnLogin.Enabled = true;
-               
+
                 Intent intent = new Intent(this, typeof(MainActivity));
                 StartActivity(intent);
 
                 OverridePendingTransition(Resource.Animation.Side_in_right, Resource.Animation.Side_out_left);
-                
+
             }
             if (EventType == 2)
             {
@@ -188,26 +256,26 @@ namespace client.Activities
                 builder.Show();
             }
 
-        }
-        public void OnFailure(Java.Lang.Exception e)
+        }*/
+    /*public void OnFailure(Java.Lang.Exception e)
+    {
+
+        BtnLogin.Enabled = true;
+
+        //  loading.Dispose();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.SetTitle("Error");
+        builder.SetMessage(e.Message);
+        builder.SetNeutralButton("OK", delegate
         {
-
-            BtnLogin.Enabled = true;
-
-            //  loading.Dispose();
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.SetTitle("Error");
-            builder.SetMessage(e.Message);
-            builder.SetNeutralButton("OK", delegate
-            {
-                builder.Dispose();
-            });
-            builder.Show();
-        }
-
-        public void OnComplete(Task task)
-        {
-            loadingDialog.Dismiss();
-        }
+            builder.Dispose();
+        });
+        builder.Show();
     }
+
+    public void OnComplete(Task task)
+    {
+        loadingDialog.Dismiss();
+    }*/
+
 }
